@@ -5,8 +5,86 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Simple Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./css/style.css" />
     <script defer src="./js/index.js"></script>
   </head>
-  <body></body>
+  <body>
+    <main>
+      <div class="wrapper">
+        <div class="feature-container">
+          <button class="feature-button">
+            <p>Dark mode</p>
+            <div class="slider"><div class="ball"></div></div>
+          </button>
+          <button class="feature-button">
+            <p>Auto-copy</p>
+            <div class="slider">
+              <div class="ball"></div>
+            </div>
+          </button>
+        </div>
+
+        <div class="calculator-container">
+          <div class="history-container">
+            <button class="history-button">
+              <img src="./assets/history.svg" alt="" />
+            </button>
+            <div class="history-list-container">
+              <button class="trash-button">
+                <img src="./assets/trash.svg" alt="" />
+              </button>
+              <ul></ul>
+            </div>
+          </div>
+
+          <div class="calculation-container">
+            <input type="text" class="input-bar" placeholder="input bar" />
+            <p class="display-bar">calculation</p>
+          </div>
+
+          <div class="calculator-buttons-container">
+            <div class="calculator-buttons-row">
+              <button class="calculator-button">del</button>
+              <button class="calculator-button">( )</button>
+              <button class="calculator-button">%</button>
+              <button class="calculator-button">/</button>
+            </div>
+
+            <div class="calculator-buttons-row">
+              <button class="calculator-button">7</button>
+              <button class="calculator-button">8</button>
+              <button class="calculator-button">9</button>
+              <button class="calculator-button">x</button>
+            </div>
+
+            <div class="calculator-buttons-row">
+              <button class="calculator-button">4</button>
+              <button class="calculator-button">5</button>
+              <button class="calculator-button">6</button>
+              <button class="calculator-button">-</button>
+            </div>
+
+            <div class="calculator-buttons-row">
+              <button class="calculator-button">1</button>
+              <button class="calculator-button">2</button>
+              <button class="calculator-button">3</button>
+              <button class="calculator-button">+</button>
+            </div>
+
+            <div class="calculator-buttons-row">
+              <button class="calculator-button">0</button>
+              <button class="calculator-button">.</button>
+              <button class="calculator-button">=</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
 </html>
