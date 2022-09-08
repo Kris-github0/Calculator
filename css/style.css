@@ -73,6 +73,8 @@ button {
 main {
   display: flex;
   justify-content: center;
+  height: 100vh;
+  align-items: center;
 }
 
 .wrapper {
@@ -170,9 +172,11 @@ input:checked + .slider:before {
 
 .calculator-container {
   position: relative;
-  height: 700px;
+
   background: linear-gradient(to bottom, #ff2525 0%, #6100ff 100%);
   z-index: 0;
+  margin-top: 5px;
+  padding-bottom: 15px;
 }
 
 .calculator-container::before {
@@ -188,8 +192,12 @@ input:checked + .slider:before {
   backdrop-filter: blur(4px);
 }
 /* history WIP */
+.history-container {
+  padding-left: 0 5px;
+}
 
 .history-button {
+  margin-top: 15px;
   border: none;
   background: none;
   width: 50px;
@@ -208,13 +216,14 @@ input:checked + .slider:before {
 /* input container WIP */
 .calculation-container {
   text-align: right;
+  padding-right: 10px;
 }
 
 .input-bar {
   border: none;
   background: none;
   width: 100%;
-  font-size: 2rem;
+  font-size: 2.25rem;
   text-align: right;
 }
 
@@ -222,7 +231,16 @@ input:checked + .slider:before {
   outline: none;
 }
 
+.display-bar {
+  margin-top: 15px;
+  font-size: 3.5rem;
+}
+
 /* calculator buttons */
+.calculator-buttons-container {
+  margin-top: 17px;
+}
+
 .calculator-buttons-row {
   text-align: center;
 }
