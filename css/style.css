@@ -75,6 +75,10 @@ main {
   justify-content: center;
 }
 
+.wrapper {
+  width: 370px;
+}
+
 /* feature container */
 .feature-container {
   display: flex;
@@ -209,7 +213,7 @@ input:checked + .slider:before {
 .input-bar {
   border: none;
   background: none;
-
+  width: 100%;
   font-size: 2rem;
   text-align: right;
 }
@@ -218,33 +222,35 @@ input:checked + .slider:before {
   outline: none;
 }
 
-/* calculator button WIP */
+/* calculator buttons */
+.calculator-buttons-row {
+  text-align: center;
+}
 
 .calculator-button {
   width: 80px;
   height: 80px;
-  background: #fff;
-  border: none;
-  margin-top: 20px;
-  color: #2c0768;
+
+  margin-top: 8px;
   border-radius: 10px;
+  border: none;
+
+  color: #2c0768;
+  background: #fff;
 }
 
 .calculator-button:last-child {
-  background: #5a00b5;
-  opacity: 0.85;
   border: none;
+
+  opacity: 0.85;
   color: #fff;
+  background: #5a00b5;
 }
 
-/* calculator buttons grid */
-.calculator-buttons-row:last-child {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-}
-
+/* Equals button */
+/* I used this number because there is no margin left 
+   or right on the other buttons to go from.
+*/
 .calculator-buttons-row:last-child :last-child {
-  grid-column-start: 3;
-  grid-column-end: 5;
-  width: 100%;
+  width: 169px;
 }
