@@ -172,7 +172,7 @@ input:checked + .slider:before {
 
 .calculator-container {
   position: relative;
-
+  border-radius: 12.5px;
   background: linear-gradient(to bottom, #ff2525 0%, #6100ff 100%);
   z-index: 0;
   margin-top: 5px;
@@ -189,7 +189,6 @@ input:checked + .slider:before {
   z-index: -1;
 
   background: rgba(255, 255, 255, 0.68);
-  backdrop-filter: blur(4px);
 }
 /* history WIP */
 .history-container {
