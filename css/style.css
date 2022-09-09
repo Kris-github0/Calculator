@@ -64,6 +64,10 @@ time, mark, audio, video {
   }
 }
 
+body {
+  background-color: rgb(255, 223, 229);
+}
+
 body,
 button {
   font-size: 2rem;
