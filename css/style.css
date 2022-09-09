@@ -71,9 +71,9 @@ button {
 }
 
 main {
+  margin: 50px 5px;
   display: flex;
   justify-content: center;
-  height: 100vh;
   align-items: center;
 }
 
@@ -193,7 +193,7 @@ input:checked + .slider:before {
 }
 /* history WIP */
 .history-container {
-  padding-left: 0 5px;
+  padding-left: 5px;
 }
 
 .history-button {
@@ -245,24 +245,39 @@ input:checked + .slider:before {
   text-align: center;
 }
 
-.calculator-button {
-  width: 80px;
-  height: 80px;
+:root {
+  --calculator-button-width: 80px;
+  --calculator-button-height: 80px;
+  --calculator-button-margin-top: 8px;
 
-  margin-top: 8px;
+  --calculator-button-span2-col: calc(var(--calculator-button-width) * 2 + 9px);
+  --calculator-button-span2-row: calc(
+    var(--calculator-button-height) * 2 + 9px
+  );
+
+  --calculator-button-color: #2c0768;
+  --calculator-button-background-color: #fff;
+
+  --calculator-button-unique-color: #fff;
+  --calculator-button-unique-background-color: #5a00b5;
+}
+
+.calculator-button {
+  width: var(--calculator-button-width);
+  height: var(--calculator-button-height);
+
+  margin-top: var(--calculator-button-margin-top);
   border-radius: 10px;
   border: none;
 
-  color: #2c0768;
-  background: #fff;
+  color: var(--calculator-button-color);
+  background: var(--calculator-button-background-color);
 }
 
 .calculator-button:last-child {
-  border: none;
-
   opacity: 0.85;
-  color: #fff;
-  background: #5a00b5;
+  color: var(--calculator-button-unique-color);
+  background: var(--calculator-button-unique-background-color);
 }
 
 /* Equals button */
@@ -270,5 +285,5 @@ input:checked + .slider:before {
    or right on the other buttons to go from.
 */
 .calculator-buttons-row:last-child :last-child {
-  width: 169px;
+  width: var(--calculator-button-span2-col);
 }
