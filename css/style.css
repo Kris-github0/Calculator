@@ -330,7 +330,7 @@ input,
     --calculator-button-color: rgba(255, 255, 255, 0.966);
     --calculator-button-background-color: rgba(78, 78, 78, 0.548);
     --calculator-button-unique-color: var(--calculator-button-color);
-    --calculator-button-unique-background-color: grey;
+    --calculator-button-unique-background-color: #636363;
 
     --ball-color: rgba(133, 133, 133, 0.966);
     --checked-slider-color: rgba(255, 255, 255, 0.726);
