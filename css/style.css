@@ -289,9 +289,13 @@ input,
 
   --calculator-button-color: #2c0768;
   --calculator-button-background-color: #fff;
+  --calculator-button-active-background-color: rgba(255, 255, 255, 0.747);
 
   --calculator-button-unique-color: #fff;
   --calculator-button-unique-background-color: #5a00b5;
+  --calculator-button-unique-active-background-color: rgb(71, 0, 141);
+
+  --calculator-button-translateY: 1px;
 }
 
 .calculator-button {
@@ -304,6 +308,18 @@ input,
 
   color: var(--calculator-button-color);
   background: var(--calculator-button-background-color);
+
+  transition: transform 0.5s ease;
+  transition: background-color 0.1s ease;
+}
+
+.calculator-button:active {
+  transform: translateY(var(--calculator-button-translateY));
+  background-color: var(--calculator-button-active-background-color);
+}
+
+.calculator-button:last-child:active {
+  background-color: var(--calculator-button-unique-active-background-color);
 }
 
 .calculator-button:last-child {
@@ -329,8 +345,11 @@ input,
 
     --calculator-button-color: rgba(255, 255, 255, 0.966);
     --calculator-button-background-color: rgba(78, 78, 78, 0.548);
+    --calculator-button-active-background-color: rgba(78, 78, 78, 0.342);
+
     --calculator-button-unique-color: var(--calculator-button-color);
     --calculator-button-unique-background-color: #636363;
+    --calculator-button-unique-active-background-color: #636363e3;
 
     --ball-color: rgba(133, 133, 133, 0.966);
     --checked-slider-color: rgba(255, 255, 255, 0.726);
