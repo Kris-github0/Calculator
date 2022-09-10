@@ -257,6 +257,7 @@ input,
   font-size: 2.25rem;
   text-align: right;
   letter-spacing: 1px;
+  caret-color: transparent;
 }
 
 .input-bar:focus {
