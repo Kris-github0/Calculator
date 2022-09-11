@@ -217,6 +217,12 @@ input:checked + .slider:before {
   padding-left: 5px;
 }
 
+:root {
+  --history-button-outline-color: var(--calculator-button-background-color);
+  --history-button-outline-width: 2px;
+  --history-button-outline-style: solid;
+}
+
 .history-button {
   margin-top: 15px;
   border: none;
@@ -225,7 +231,8 @@ input:checked + .slider:before {
 }
 
 .history-button:focus-visible {
-  outline: var(--calculator-button-background-color) 2px solid;
+  outline: var(--history-button-outline-color)
+    var(--history-button-outline-width) var(--history-button-outline-style);
 }
 
 .trash-button {
@@ -238,8 +245,12 @@ input:checked + .slider:before {
   display: none;
 }
 
+:root {
+  --history-button-fill: #2c0768;
+}
+
 svg {
-  fill: #2c0768;
+  fill: var(--history-button-fill);
 }
 
 /* input container WIP */
@@ -291,11 +302,17 @@ input,
   --calculator-button-height: 80px;
   --calculator-button-margin-top: 8px;
 
+  --calculator-button-border-radius: 10px;
+
   --calculator-button-span2-col: calc(var(--calculator-button-width) * 2 + 9px);
   --calculator-button-span2-row: calc(
     var(--calculator-button-height) * 2 + 9px
   );
   --calculator-button-translateY: 1px;
+
+  --calculator-button-outline-color: var(
+    --calculator-button-unique-background-color
+  );
 
   --calculator-button-outline-width: 3px;
   --calculator-button-outline-style: solid;
@@ -307,6 +324,9 @@ input,
   --calculator-button-unique-color: #fff;
   --calculator-button-unique-background-color: #5a00b5;
   --calculator-button-unique-active-background-color: rgb(71, 0, 141);
+  --calculator-button-unique-outline-color: var(
+    --calculator-button-background-color
+  );
 }
 
 .calculator-button {
@@ -314,7 +334,7 @@ input,
   height: var(--calculator-button-height);
 
   margin-top: var(--calculator-button-margin-top);
-  border-radius: 10px;
+  border-radius: var(--calculator-button-border-radius);
   border: none;
 
   color: var(--calculator-button-color);
@@ -325,13 +345,13 @@ input,
 }
 
 .calculator-button:focus-visible {
-  outline: var(--calculator-button-unique-background-color)
+  outline: var(--calculator-button-outline-color)
     var(--calculator-button-outline-width)
     var(--calculator-button-outline-style);
 }
 
 .calculator-button:last-child:focus-visible {
-  outline: var(--calculator-button-background-color)
+  outline: var(--calculator-button-unique-outline-color)
     var(--calculator-button-outline-width)
     var(--calculator-button-outline-style);
 }
@@ -379,8 +399,13 @@ input,
     --text-color: rgba(255, 255, 255, 0.726);
   }
 
+  :root {
+    --history-button-outline-color: var(--calculator-button-color);
+  }
+
   .history-button:focus-visible {
-    outline: var(--calculator-button-color) 2px solid;
+    outline: var(--history-button-outline-color)
+      var(--history-button-outline-width) var(--history-button-outline-style);
   }
 
   input:focus-visible + .slider,
@@ -406,7 +431,7 @@ input,
     color: var(--text-color);
   }
 
-  svg {
-    fill: rgba(255, 255, 255, 0.726);
+  :root {
+    --history-button-fill: rgba(255, 255, 255, 0.726);
   }
 }
