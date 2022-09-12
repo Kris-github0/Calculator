@@ -258,6 +258,8 @@ input:checked + .slider:before {
 .history-list-container > .trash-button {
   display: flex;
   align-items: center;
+  position: relative;
+  left: 145px;
 }
 
 .history-list-container > .trash-button svg {
