@@ -301,8 +301,8 @@ input:checked + .slider:before {
 }
 
 :root {
-  --history-button-outline-color: var(--calculator-button-background-color);
-  --history-button-outline-width: 2px;
+  --history-button-outline-color: black;
+  --history-button-outline-width: 3px;
   --history-button-outline-style: solid;
 }
 
@@ -315,7 +315,9 @@ input:checked + .slider:before {
   z-index: 3;
 }
 
-.history-button:focus-visible {
+.history-button:focus-visible,
+.trash-button:focus-visible,
+.copy-button:focus-visible {
   outline: var(--history-button-outline-color)
     var(--history-button-outline-width) var(--history-button-outline-style);
 }
@@ -476,7 +478,7 @@ input,
   }
 
   :root {
-    --history-button-outline-color: var(--calculator-button-color);
+    --history-button-outline-color: rgba(206, 206, 206);
   }
 
   :root {
