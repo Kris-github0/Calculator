@@ -212,9 +212,90 @@ input:checked + .slider:before {
   border-radius: 12.5px;
   background: var(--calculator-container-overlay);
 }
+
 /* history WIP */
 .history-container {
   padding-left: 5px;
+  position: relative;
+}
+
+/* .calculation-options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+.history-calculation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.copy-button {
+  border: none;
+  background: none;
+
+  width: 30px;
+}
+
+.calculation-options .copy-button svg {
+  margin-bottom: 2px;
+}
+
+.calculation-options .trash-button {
+  width: 35px;
+  margin: 0;
+}
+
+.trash-button {
+  border: none;
+  background: none;
+
+  margin-top: 2.5px;
+  margin-left: 75px;
+}
+
+.history-list-container > .trash-button {
+  display: flex;
+  align-items: center;
+}
+
+.history-list-container > .trash-button svg {
+  width: 38px;
+}
+
+.history-list-container .trash-button span {
+  font-size: 1rem;
+}
+
+:root {
+  --history-list-container-background-color: rgb(255, 210, 218);
+}
+
+.history-list-container {
+  border-radius: 10px;
+  display: none;
+  display: block;
+  visibility: hidden;
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  background-color: var(--history-list-container-background-color);
+  width: 360px;
+  height: 370px;
+
+  font-size: 1rem;
+}
+
+/* simulating history button click */
+.history-button:active + .history-list-container {
+  visibility: visible;
+}
+
+.calculation-list {
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 20px;
 }
 
 :root {
@@ -228,6 +309,8 @@ input:checked + .slider:before {
   border: none;
   background: none;
   width: 50px;
+  position: relative;
+  z-index: 3;
 }
 
 .history-button:focus-visible {
@@ -235,22 +318,12 @@ input:checked + .slider:before {
     var(--history-button-outline-width) var(--history-button-outline-style);
 }
 
-.trash-button {
-  border: none;
-  background: none;
-  width: 50px;
-}
-
-.history-list-container {
-  display: none;
-}
-
 :root {
-  --history-button-fill: #2c0768;
+  --history-svgs-fill: #2c0768;
 }
 
 svg {
-  fill: var(--history-button-fill);
+  fill: var(--history-svgs-fill);
 }
 
 /* input container WIP */
@@ -379,6 +452,7 @@ input,
   width: var(--calculator-button-span2-col);
 }
 
+/* simulating dark mode click */
 @media screen and (min-width: 550px) {
   :root {
     --main-background: rgb(31, 31, 31);
@@ -401,6 +475,10 @@ input,
 
   :root {
     --history-button-outline-color: var(--calculator-button-color);
+  }
+
+  :root {
+    --history-list-container-background-color: rgb(22, 22, 22);
   }
 
   .history-button:focus-visible {
@@ -427,11 +505,13 @@ input,
 
   input,
   label,
-  .display-bar {
+  .display-bar,
+  .calculation,
+  .trash-button span {
     color: var(--text-color);
   }
 
   :root {
-    --history-button-fill: rgba(255, 255, 255, 0.726);
+    --history-svgs-fill: rgba(255, 255, 255, 0.726);
   }
 }
