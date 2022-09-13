@@ -252,14 +252,14 @@ input:checked + .slider:before {
   background: none;
 
   margin-top: 2.5px;
-  margin-left: 75px;
 }
 
 .history-list-container > .trash-button {
   display: flex;
   align-items: center;
-  position: relative;
-  left: 145px;
+
+  align-self: end;
+  padding: 0;
 }
 
 .history-list-container > .trash-button svg {
@@ -276,15 +276,15 @@ input:checked + .slider:before {
 
 .history-list-container {
   border-radius: 10px;
-  display: none;
-  display: block;
+  display: flex;
+  flex-direction: column;
   visibility: hidden;
   position: absolute;
   z-index: 2;
   top: 10px;
   background-color: var(--history-list-container-background-color);
-  width: 360px;
-  height: 370px;
+  width: 97.25%;
+  height: 340px;
 
   font-size: 1rem;
 }
@@ -375,8 +375,8 @@ input,
 }
 
 :root {
-  --calculator-button-width: 80px;
-  --calculator-button-height: 80px;
+  --calculator-button-width: 70px;
+  --calculator-button-height: 70px;
   --calculator-button-margin-top: 8px;
 
   --calculator-button-border-radius: 10px;
@@ -404,6 +404,17 @@ input,
   --calculator-button-unique-outline-color: var(
     --calculator-button-background-color
   );
+}
+
+@media screen and (min-width: 370px) {
+  :root {
+    --calculator-button-width: 80px;
+    --calculator-button-height: 80px;
+  }
+
+  .history-list-container {
+    height: 370px;
+  }
 }
 
 .calculator-button {
