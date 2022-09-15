@@ -79,7 +79,7 @@ button {
 }
 
 main {
-  margin: 50px 5px;
+  margin: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -87,6 +87,13 @@ main {
 
 .wrapper {
   width: 370px;
+}
+
+@media screen and (min-height: 700px) {
+  main {
+    height: 100vh;
+    margin: 0 5px;
+  }
 }
 
 .global-options-container {
