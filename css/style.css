@@ -384,6 +384,7 @@ svg {
   );
   --calculator-button-outline-width: 3px;
   --calculator-button-outline-style: solid;
+  --calculator-button-outline-offset: -3px;
 
   --calculator-button-color: #2c0768;
   --calculator-button-background-color: #fff;
@@ -416,6 +417,7 @@ svg {
     --calculator-button-span2-row: calc(
       var(--calculator-button-height) * 2 + 9px
     );
+    --calculator-button-outline-offset: 0px;
 
     --option-toggle-font-size: 1rem;
   }
@@ -499,6 +501,7 @@ svg {
   outline: var(--calculator-button-outline-color)
     var(--calculator-button-outline-width)
     var(--calculator-button-outline-style);
+  outline-offset: var(--calculator-button-outline-offset);
 }
 
 .calculator-button:last-child:focus-visible {
