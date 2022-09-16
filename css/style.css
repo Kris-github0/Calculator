@@ -89,10 +89,11 @@ button {
 }
 
 main {
-  margin: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  margin: 5px;
 }
 
 .wrapper {
@@ -114,24 +115,25 @@ main {
 }
 
 /* Toggle button */
-
 :root {
   --option-toggle-font-size: 0.85rem;
 
-  --ball-color: #fff;
+  --slider-height: 22px;
+  --slider-width: calc((var(--slider-height) * 2) - var(--slider-padding));
+  --slider-padding: 6px;
+
+  --slider-outline-width: 3px;
+  --slider-outline-style: solid;
+  --slider-outline-color: #000;
+
+  --slider-transition-duration: 0.4s;
+
   --unchecked-slider-color: #ccc;
   --checked-slider-color: #5a00b5;
 
-  --slider-height: 22px;
-  --slider-padding: 6px;
-  --slider-outline-width: 3px;
-  --slider-outline-color: #000;
-  --slider-outline-style: solid;
-  --slider-transition-duration: 0.4s;
-  --slider-width: calc((var(--slider-height) * 2) - var(--slider-padding));
-
   --ball-height: calc(var(--slider-height) - var(--slider-padding));
   --ball-moveX: calc(var(--slider-height) - var(--slider-padding));
+  --ball-color: #fff;
 }
 
 .option-toggle {
@@ -143,9 +145,9 @@ main {
 }
 
 .hide-input {
-  opacity: 0;
   width: 0;
   height: 0;
+  opacity: 0;
 }
 
 .slider {
@@ -200,33 +202,36 @@ input:checked + .slider:before {
 /* calculator */
 :root {
   --calculator-background: linear-gradient(to bottom, #ff2525 0%, #6100ff 100%);
-
   --calculator-overlay: rgba(255, 255, 255, 0.68);
 }
 
 .calculator-container {
   position: relative;
-  background: var(--calculator-background);
   z-index: 0;
+
   margin-top: 5px;
+
+  background: var(--calculator-background);
 }
 
 .calculator-container::before {
   content: "";
+
   position: absolute;
-  width: 100%;
-  height: 100%;
+  z-index: -1;
   left: 0px;
   top: 0px;
-  z-index: -1;
+
+  width: 100%;
+  height: 100%;
 
   background: var(--calculator-overlay);
 }
 
 /* history */
 .history-container {
-  padding-left: 5px;
   position: relative;
+  padding-left: 5px;
 }
 
 .history-calculation-container {
@@ -257,6 +262,7 @@ input:checked + .slider:before {
   align-items: center;
 
   align-self: end;
+
   padding: 0;
 }
 
@@ -274,18 +280,22 @@ input:checked + .slider:before {
 }
 
 .history-list-container {
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  visibility: hidden;
   position: absolute;
   z-index: 2;
   top: 10px;
-  background-color: var(--history-global-background-color);
+
+  display: flex;
+  flex-direction: column;
+
   width: 97.25%;
   height: 340px;
+  border-radius: 10px;
+
+  background-color: var(--history-global-background-color);
 
   font-size: 1rem;
+
+  visibility: hidden;
 }
 
 /* simulating history button click */
@@ -299,23 +309,24 @@ input:checked + .slider:before {
 }
 
 :root {
-  --history-buttons-outline-color: black;
   --history-buttons-outline-width: 3px;
   --history-buttons-outline-style: solid;
+  --history-buttons-outline-color: black;
 }
 
 .history-button {
-  margin-top: 15px;
-  width: 45px;
   position: relative;
   z-index: 3;
+
+  width: 45px;
+  margin-top: 15px;
 }
 
 .history-button:focus-visible,
 .trash-button:focus-visible,
 .copy-button:focus-visible {
-  outline: var(--history-buttons-outline-color)
-    var(--history-buttons-outline-width) var(--history-buttons-outline-style);
+  outline: var(--history-buttons-outline-width)
+    var(--history-buttons-outline-style) var(--history-buttons-outline-color);
 }
 
 :root {
@@ -338,15 +349,18 @@ svg {
 }
 
 .calculation-display-container {
-  text-align: right;
   padding-right: 10px;
+
+  text-align: right;
 }
 
 .input-bar {
   width: 100%;
+
   font-size: 1.75rem;
-  text-align: right;
   letter-spacing: 1px;
+  text-align: right;
+
   caret-color: transparent;
 }
 
@@ -356,16 +370,17 @@ svg {
 
 .display-bar {
   margin-top: 15px;
+
   font-size: 2.5rem;
 }
 
 /* calculator buttons */
 .calculator-buttons-container {
-  margin-top: 17px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  margin-top: 17px;
 }
 
 .calculator-buttons-row {
@@ -383,11 +398,11 @@ svg {
 
   --calculator-button-translateY: 1px;
 
+  --calculator-button-outline-width: 3px;
+  --calculator-button-outline-style: solid;
   --calculator-button-outline-color: var(
     --calculator-button-unique-background-color
   );
-  --calculator-button-outline-width: 3px;
-  --calculator-button-outline-style: solid;
   --calculator-button-outline-offset: -3px;
 
   --calculator-button-color: #2c0768;
@@ -406,7 +421,9 @@ svg {
   :root {
     --calculator-button-width: 70px;
     --calculator-button-height: 70px;
+  }
 
+  :root {
     --slider-height: 26px;
   }
 }
@@ -421,8 +438,11 @@ svg {
     --calculator-button-span2-row: calc(
       var(--calculator-button-height) * 2 + 9px
     );
-    --calculator-button-outline-offset: 0px;
 
+    --calculator-button-outline-offset: 0px;
+  }
+
+  :root {
     --option-toggle-font-size: 1rem;
   }
 
@@ -488,13 +508,12 @@ svg {
 .calculator-button {
   width: var(--calculator-button-width);
   height: var(--calculator-button-height);
-
   margin-top: var(--calculator-button-margin-top);
   border-radius: var(--calculator-button-border-radius);
   border: none;
 
   color: var(--calculator-button-color);
-  background: var(--calculator-button-background-color);
+  background-color: var(--calculator-button-background-color);
 
   transition: transform 0.5s ease;
   transition: background-color 0.1s ease;
@@ -502,9 +521,9 @@ svg {
 
 .calculator-button:focus-visible,
 .calculator-button:last-child:focus-visible {
-  outline: var(--calculator-button-outline-color)
-    var(--calculator-button-outline-width)
-    var(--calculator-button-outline-style);
+  outline: var(--calculator-button-outline-width)
+    var(--calculator-button-outline-style)
+    var(--calculator-button-outline-color);
   outline-offset: var(--calculator-button-outline-offset);
 }
 
@@ -514,6 +533,7 @@ svg {
 
 .calculator-button:active {
   transform: translateY(var(--calculator-button-translateY));
+
   background-color: var(--calculator-button-active-background-color);
 }
 
@@ -524,7 +544,7 @@ svg {
 .calculator-button:last-child {
   opacity: 0.85;
   color: var(--calculator-button-unique-color);
-  background: var(--calculator-button-unique-background-color);
+  background-color: var(--calculator-button-unique-background-color);
 }
 
 /* Equals button */
@@ -536,7 +556,10 @@ svg {
 @media screen and (min-width: 550px) {
   :root {
     --global-background: rgb(31, 31, 31);
+    --text-color: rgba(255, 255, 255, 0.726);
+  }
 
+  :root {
     --calculator-background: rgb(48, 48, 48);
     --calculator-overlay: none;
 
@@ -547,23 +570,21 @@ svg {
     --calculator-button-unique-color: var(--calculator-button-color);
     --calculator-button-unique-background-color: #636363;
     --calculator-button-unique-active-background-color: #636363e3;
-
-    --ball-color: rgba(133, 133, 133, 0.966);
-    --checked-slider-color: rgba(255, 255, 255, 0.726);
-    --text-color: rgba(255, 255, 255, 0.726);
   }
 
   :root {
-    --history-buttons-outline-color: rgba(206, 206, 206);
+    --ball-color: rgba(133, 133, 133, 0.966);
+    --checked-slider-color: rgba(255, 255, 255, 0.726);
   }
 
   :root {
     --history-global-background-color: rgb(22, 22, 22);
+    --history-buttons-outline-color: rgba(206, 206, 206);
   }
 
   .history-button:focus-visible {
-    outline: var(--history-buttons-outline-color)
-      var(--history-buttons-outline-width) var(--history-buttons-outline-style);
+    outline: var(--history-buttons-outline-width)
+      var(--history-buttons-outline-style) var(--history-buttons-outline-color);
   }
 
   input:focus-visible + .slider,
@@ -573,9 +594,8 @@ svg {
 
   .calculator-button:focus-visible,
   .calculator-button:last-child:focus-visible {
-    outline: var(--calculator-button-color)
-      var(--calculator-button-outline-width)
-      var(--calculator-button-outline-style);
+    outline: var(--calculator-button-outline-width)
+      var(--calculator-button-outline-style) var(--calculator-button-color);
   }
 
   .calculator-button:last-child:focus-visible {
