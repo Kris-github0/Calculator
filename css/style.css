@@ -96,10 +96,6 @@ main {
   margin: 5px;
 }
 
-.wrapper {
-  width: calc(var(--calculator-button-width) * 4);
-}
-
 /* Center vertically when viewport height exceeds calculator height */
 @media screen and (min-height: 700px),
   screen and (max-width: 320px) and (min-height: 550px) {
@@ -107,6 +103,10 @@ main {
     height: 100vh;
     margin: 0 5px;
   }
+}
+
+.wrapper {
+  width: calc(var(--calculator-button-width) * 4);
 }
 
 .global-options-container {
@@ -168,17 +168,17 @@ input:checked + .slider {
   background-color: var(--checked-slider-color);
 }
 
-input:checked:focus-visible + .slider {
-  --slider-outline-color: rgba(255, 73, 194, 0.589);
-}
-
 input:focus-visible + .slider {
   outline: var(--slider-outline-width) var(--slider-outline-style)
     var(--slider-outline-color);
 }
 
+input:checked:focus-visible + .slider {
+  --slider-outline-color: rgba(255, 73, 194, 0.589);
+}
+
 /* Ball */
-.slider:before {
+.slider::before {
   content: "";
 
   position: absolute;
@@ -195,7 +195,7 @@ input:focus-visible + .slider {
 }
 
 /* Ball movement */
-input:checked + .slider:before {
+input:checked + .slider::before {
   transform: translateX(var(--ball-moveX));
 }
 
@@ -229,6 +229,10 @@ input:checked + .slider:before {
 }
 
 /* history */
+:root {
+  --history-global-background-color: rgb(255, 210, 218);
+}
+
 .history-container {
   position: relative;
   padding-left: 5px;
@@ -238,45 +242,6 @@ input:checked + .slider:before {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.copy-button {
-  width: 30px;
-}
-
-.calculation-options-container .copy-button svg {
-  margin-bottom: 2px;
-}
-
-.calculation-options-container .trash-button {
-  width: 35px;
-  margin: 0;
-}
-
-.trash-button {
-  margin-top: 5px;
-}
-
-.history-list-container > .trash-button {
-  display: flex;
-  align-items: center;
-
-  align-self: end;
-
-  padding: 0;
-}
-
-.history-list-container > .trash-button svg {
-  width: 30px;
-}
-
-.trash-button span,
-.calculation {
-  font-size: 0.85rem;
-}
-
-:root {
-  --history-global-background-color: rgb(255, 210, 218);
 }
 
 .history-list-container {
@@ -298,11 +263,6 @@ input:checked + .slider:before {
   visibility: hidden;
 }
 
-/* simulating history button click */
-.history-button:active + .history-list-container {
-  visibility: visible;
-}
-
 .history-list {
   margin: 0 5px;
   margin-top: 20px;
@@ -320,6 +280,46 @@ input:checked + .slider:before {
 
   width: 45px;
   margin-top: 15px;
+}
+
+/* simulating history button click */
+.history-button:active + .history-list-container {
+  visibility: visible;
+}
+
+.copy-button {
+  width: 30px;
+}
+
+.copy-button svg {
+  margin-bottom: 2px;
+}
+
+.trash-button {
+  margin-top: 5px;
+}
+
+.calculation-options-container .trash-button {
+  width: 35px;
+  margin: 0;
+}
+
+.history-list-container > .trash-button {
+  display: flex;
+  align-items: center;
+
+  align-self: end;
+
+  padding: 0;
+}
+
+.history-list-container > .trash-button svg {
+  width: 30px;
+}
+
+.trash-button span,
+.calculation {
+  font-size: 0.85rem;
 }
 
 .history-button:focus-visible,
@@ -417,6 +417,53 @@ svg {
   );
 }
 
+.calculator-button {
+  width: var(--calculator-button-width);
+  height: var(--calculator-button-height);
+  margin-top: var(--calculator-button-margin-top);
+  border-radius: var(--calculator-button-border-radius);
+  border: none;
+
+  color: var(--calculator-button-color);
+  background-color: var(--calculator-button-background-color);
+
+  transition: transform 0.5s ease;
+  transition: background-color 0.1s ease;
+}
+
+.calculator-button:focus-visible,
+.calculator-button:last-child:focus-visible {
+  outline: var(--calculator-button-outline-width)
+    var(--calculator-button-outline-style)
+    var(--calculator-button-outline-color);
+  outline-offset: var(--calculator-button-outline-offset);
+}
+
+.calculator-button:last-child:focus-visible {
+  outline-color: var(--calculator-button-unique-outline-color);
+}
+
+.calculator-button:active {
+  transform: translateY(var(--calculator-button-translateY));
+
+  background-color: var(--calculator-button-active-background-color);
+}
+
+.calculator-button:last-child:active {
+  background-color: var(--calculator-button-unique-active-background-color);
+}
+
+.calculator-button:last-child {
+  opacity: 0.85;
+  color: var(--calculator-button-unique-color);
+  background-color: var(--calculator-button-unique-background-color);
+}
+
+/* Equals button */
+.calculator-buttons-row:last-child :last-child {
+  width: var(--calculator-button-span2-col);
+}
+
 @media screen and (min-width: 280px) {
   :root {
     --calculator-button-width: 70px;
@@ -503,53 +550,6 @@ svg {
   .history-list-container {
     height: 370px;
   }
-}
-
-.calculator-button {
-  width: var(--calculator-button-width);
-  height: var(--calculator-button-height);
-  margin-top: var(--calculator-button-margin-top);
-  border-radius: var(--calculator-button-border-radius);
-  border: none;
-
-  color: var(--calculator-button-color);
-  background-color: var(--calculator-button-background-color);
-
-  transition: transform 0.5s ease;
-  transition: background-color 0.1s ease;
-}
-
-.calculator-button:focus-visible,
-.calculator-button:last-child:focus-visible {
-  outline: var(--calculator-button-outline-width)
-    var(--calculator-button-outline-style)
-    var(--calculator-button-outline-color);
-  outline-offset: var(--calculator-button-outline-offset);
-}
-
-.calculator-button:last-child:focus-visible {
-  outline-color: var(--calculator-button-unique-outline-color);
-}
-
-.calculator-button:active {
-  transform: translateY(var(--calculator-button-translateY));
-
-  background-color: var(--calculator-button-active-background-color);
-}
-
-.calculator-button:last-child:active {
-  background-color: var(--calculator-button-unique-active-background-color);
-}
-
-.calculator-button:last-child {
-  opacity: 0.85;
-  color: var(--calculator-button-unique-color);
-  background-color: var(--calculator-button-unique-background-color);
-}
-
-/* Equals button */
-.calculator-buttons-row:last-child :last-child {
-  width: var(--calculator-button-span2-col);
 }
 
 /* simulating dark mode click */
