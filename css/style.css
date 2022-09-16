@@ -64,12 +64,14 @@ time, mark, audio, video {
   }
 }
 
+/* General */
 :root {
   --global-background: rgb(255, 223, 229);
 }
 
 body {
   background-color: var(--global-background);
+
   font-family: "Inter", sans-serif;
 }
 
@@ -97,7 +99,9 @@ main {
   width: calc(var(--calculator-button-width) * 4);
 }
 
-@media screen and (min-height: 700px) {
+/* Center vertically when viewport height exceeds calculator height */
+@media screen and (min-height: 700px),
+  screen and (max-width: 320px) and (min-height: 550px) {
   main {
     height: 100vh;
     margin: 0 5px;
@@ -147,8 +151,6 @@ main {
 .slider {
   position: relative;
 
-  cursor: pointer;
-
   width: var(--slider-width);
   height: var(--slider-height);
   border-radius: var(--slider-height);
@@ -156,6 +158,8 @@ main {
   background-color: var(--unchecked-slider-color);
 
   transition: background-color var(--slider-transition-duration);
+
+  cursor: pointer;
 }
 
 input:checked + .slider {
@@ -260,7 +264,7 @@ input:checked + .slider:before {
   width: 30px;
 }
 
-.history-list-container .trash-button span,
+.trash-button span,
 .calculation {
   font-size: 0.85rem;
 }
@@ -462,9 +466,9 @@ svg {
 
   .calculator-buttons-container {
     text-align: center;
-    display: block;
   }
 
+  .calculator-buttons-container,
   .calculator-buttons-row {
     display: block;
   }
@@ -524,9 +528,6 @@ svg {
 }
 
 /* Equals button */
-/* I used this number because there is no margin left 
-   or right on the other buttons to go from.
-*/
 .calculator-buttons-row:last-child :last-child {
   width: var(--calculator-button-span2-col);
 }
