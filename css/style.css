@@ -70,12 +70,20 @@ time, mark, audio, video {
 
 body {
   background-color: var(--global-background);
+  font-family: "Inter", sans-serif;
 }
 
 body,
 button {
   font-size: 2rem;
-  font-family: "Inter", sans-serif;
+}
+
+.copy-button,
+.trash-button,
+.history-button,
+.input-bar {
+  border: none;
+  background: none;
 }
 
 main {
@@ -224,9 +232,6 @@ input:checked + .slider:before {
 }
 
 .copy-button {
-  border: none;
-  background: none;
-
   width: 30px;
 }
 
@@ -240,9 +245,6 @@ input:checked + .slider:before {
 }
 
 .trash-button {
-  border: none;
-  background: none;
-
   margin-top: 5px;
 }
 
@@ -288,8 +290,7 @@ input:checked + .slider:before {
 }
 
 .history-list {
-  margin-left: 5px;
-  margin-right: 5px;
+  margin: 0 5px;
   margin-top: 20px;
 }
 
@@ -301,8 +302,6 @@ input:checked + .slider:before {
 
 .history-button {
   margin-top: 15px;
-  border: none;
-  background: none;
   width: 45px;
   position: relative;
   z-index: 3;
@@ -340,8 +339,6 @@ svg {
 }
 
 .input-bar {
-  border: none;
-  background: none;
   width: 100%;
   font-size: 1.75rem;
   text-align: right;
@@ -497,16 +494,15 @@ svg {
   transition: background-color 0.1s ease;
 }
 
-.calculator-button:focus-visible {
+.calculator-button:focus-visible,
+.calculator-button:last-child:focus-visible {
   outline: var(--calculator-button-outline-color)
     var(--calculator-button-outline-width)
     var(--calculator-button-outline-style);
 }
 
 .calculator-button:last-child:focus-visible {
-  outline: var(--calculator-button-unique-outline-color)
-    var(--calculator-button-outline-width)
-    var(--calculator-button-outline-style);
+  outline-color: var(--calculator-button-unique-outline-color);
 }
 
 .calculator-button:active {
@@ -571,16 +567,15 @@ svg {
     --slider-outline-color: var(--calculator-button-color);
   }
 
-  .calculator-button:focus-visible {
+  .calculator-button:focus-visible,
+  .calculator-button:last-child:focus-visible {
     outline: var(--calculator-button-color)
       var(--calculator-button-outline-width)
       var(--calculator-button-outline-style);
   }
 
   .calculator-button:last-child:focus-visible {
-    outline: var(--calculator-button-unique-color)
-      var(--calculator-button-outline-width)
-      var(--calculator-button-outline-style);
+    outline-color: var(--calculator-button-unique-color);
   }
 
   .input-bar,
