@@ -98,7 +98,8 @@ main {
 
 /* Center vertically when viewport height exceeds calculator height */
 @media screen and (min-height: 700px),
-  screen and (max-width: 320px) and (min-height: 550px) {
+  screen and (max-width: 319px) and (min-height: 550px),
+  screen and (max-width: 369px) and (min-height: 650px) {
   main {
     height: 100vh;
     margin: 0 5px;
