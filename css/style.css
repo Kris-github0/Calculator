@@ -238,12 +238,6 @@ input:checked + .slider::before {
   padding-left: 5px;
 }
 
-.history-calculation-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .history-list-container {
   position: absolute;
   z-index: 2;
@@ -268,10 +262,24 @@ input:checked + .slider::before {
   margin-top: 20px;
 }
 
+.history-calculation-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 :root {
   --history-buttons-outline-width: 3px;
   --history-buttons-outline-style: solid;
   --history-buttons-outline-color: black;
+}
+
+:root {
+  --history-svgs-fill: #2c0768;
+}
+
+svg {
+  fill: var(--history-svgs-fill);
 }
 
 .history-button {
@@ -327,14 +335,6 @@ input:checked + .slider::before {
 .copy-button:focus-visible {
   outline: var(--history-buttons-outline-width)
     var(--history-buttons-outline-style) var(--history-buttons-outline-color);
-}
-
-:root {
-  --history-svgs-fill: #2c0768;
-}
-
-svg {
-  fill: var(--history-svgs-fill);
 }
 
 /* Input */
@@ -458,7 +458,6 @@ svg {
   background-color: var(--calculator-button-unique-background-color);
 }
 
-/* Equals button */
 .calculator-buttons-row:last-child :last-child {
   width: var(--calculator-button-span2-col);
 }
@@ -581,6 +580,18 @@ svg {
     --history-buttons-outline-color: rgba(206, 206, 206);
   }
 
+  :root {
+    --history-svgs-fill: rgba(255, 255, 255, 0.726);
+  }
+
+  .input-bar,
+  .option-toggle,
+  .display-bar,
+  .calculation,
+  .trash-button span {
+    color: var(--text-color);
+  }
+
   .history-button:focus-visible {
     outline: var(--history-buttons-outline-width)
       var(--history-buttons-outline-style) var(--history-buttons-outline-color);
@@ -599,17 +610,5 @@ svg {
 
   .calculator-button:last-child:focus-visible {
     outline-color: var(--calculator-button-unique-color);
-  }
-
-  .input-bar,
-  .option-toggle,
-  .display-bar,
-  .calculation,
-  .trash-button span {
-    color: var(--text-color);
-  }
-
-  :root {
-    --history-svgs-fill: rgba(255, 255, 255, 0.726);
   }
 }
