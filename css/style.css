@@ -1,5 +1,4 @@
 /* Reset */
-
 html {
   box-sizing: border-box;
 }
@@ -200,7 +199,7 @@ input:checked + .slider::before {
   transform: translateX(var(--ball-moveX));
 }
 
-/* calculator */
+/* Calculator */
 :root {
   --calculator-background: linear-gradient(to bottom, #ff2525 0%, #6100ff 100%);
   --calculator-overlay: rgba(255, 255, 255, 0.68);
@@ -229,7 +228,7 @@ input:checked + .slider::before {
   background: var(--calculator-overlay);
 }
 
-/* history */
+/* History */
 :root {
   --history-global-background-color: rgb(255, 210, 218);
 }
@@ -338,8 +337,7 @@ svg {
   fill: var(--history-svgs-fill);
 }
 
-/* input */
-
+/* Input */
 :root {
   --calculation-display-color: rgb(49, 0, 99);
 }
@@ -375,7 +373,7 @@ svg {
   font-size: 2.5rem;
 }
 
-/* calculator buttons */
+/* Calculator buttons */
 .calculator-buttons-container {
   display: flex;
   flex-direction: column;
