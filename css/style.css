@@ -416,6 +416,24 @@ svg {
   );
 }
 
+/* brackets click simulation */
+.calculator-buttons-row:first-child:active .brackets {
+  visibility: visible;
+}
+
+.brackets {
+  position: absolute;
+  z-index: 1;
+  left: 25%;
+
+  display: flex;
+  padding: 10px;
+
+  background-color: var(--history-global-background-color);
+
+  visibility: hidden;
+}
+
 .calculator-button {
   width: var(--calculator-button-width);
   height: var(--calculator-button-height);
@@ -428,6 +446,15 @@ svg {
 
   transition: transform 0.5s ease;
   transition: background-color 0.1s ease;
+}
+
+.bracket {
+  width: calc(var(--calculator-button-width) / 1.5);
+  height: calc(var(--calculator-button-height) / 1.5);
+  margin: 0 5px;
+  border-radius: calc(var(--calculator-button-border-radius) / 2);
+
+  font-size: 1.5rem;
 }
 
 .calculator-button:focus-visible,
@@ -456,6 +483,15 @@ svg {
   opacity: 0.85;
   color: var(--calculator-button-unique-color);
   background-color: var(--calculator-button-unique-background-color);
+}
+
+.bracket:last-child {
+  color: var(--calculator-button-color);
+  background-color: var(--calculator-button-background-color);
+}
+
+.bracket:last-child:active {
+  background-color: var(--calculator-button-active-background-color);
 }
 
 .calculator-buttons-row:last-child :last-child {
@@ -533,6 +569,13 @@ svg {
     text-align: center;
   }
 
+  .brackets {
+    left: 30%;
+    top: 30%;
+
+    border-radius: 10px;
+  }
+
   .calculator-buttons-container,
   .calculator-buttons-row {
     display: block;
@@ -547,6 +590,21 @@ svg {
 
   .history-list-container {
     height: 370px;
+  }
+
+  .brackets {
+    left: 27.4%;
+    top: 25%;
+
+    width: 169px;
+  }
+
+  .bracket {
+    width: calc(var(--calculator-button-width) / 1.25);
+    height: calc(var(--calculator-button-height) / 1.25);
+    border-radius: calc(var(--calculator-button-border-radius) / 1.25);
+
+    font-size: 1.75rem;
   }
 }
 
