@@ -64,6 +64,112 @@ time, mark, audio, video {
 }
 
 /* General */
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light):not(.dark) {
+    --global-background: rgb(31, 31, 31);
+    --text-color: rgba(255, 255, 255, 0.726);
+
+    --calculator-background: rgb(48, 48, 48);
+    --calculator-overlay: none;
+
+    --calculator-button-color: rgba(255, 255, 255, 0.966);
+    --calculator-button-background-color: rgba(78, 78, 78, 0.548);
+    --calculator-button-active-background-color: rgba(78, 78, 78, 0.342);
+
+    --calculator-button-unique-color: var(--calculator-button-color);
+    --calculator-button-unique-background-color: #636363;
+
+    --ball-color: rgba(133, 133, 133, 0.966);
+    --checked-slider-color: rgba(255, 255, 255, 0.726);
+
+    --history-global-background-color: rgb(22, 22, 22);
+    --history-buttons-outline-color: rgba(206, 206, 206);
+
+    --history-svgs-fill: rgba(255, 255, 255, 0.726);
+  }
+  .input-bar,
+  .option-toggle,
+  .display-bar,
+  .calculation,
+  .trash-button span {
+    color: var(--text-color);
+  }
+
+  .history-button:focus-visible {
+    outline: var(--history-buttons-outline-width)
+      var(--history-buttons-outline-style) var(--history-buttons-outline-color);
+  }
+
+  input:focus-visible + .slider,
+  input:checked:focus-visible + .slider {
+    --slider-outline-color: var(--calculator-button-color);
+  }
+
+  .calculator-button:focus-visible,
+  .calculator-button:last-child:focus-visible {
+    outline: var(--calculator-button-outline-width)
+      var(--calculator-button-outline-style) var(--calculator-button-color);
+  }
+
+  .calculator-button:last-child:focus-visible {
+    outline-color: var(--calculator-button-unique-color);
+  }
+}
+
+:root.dark {
+  --global-background: rgb(31, 31, 31);
+  --text-color: rgba(255, 255, 255, 0.726);
+
+  --calculator-background: rgb(48, 48, 48);
+  --calculator-overlay: none;
+
+  --calculator-button-color: rgba(255, 255, 255, 0.966);
+  --calculator-button-background-color: rgba(78, 78, 78, 0.548);
+  --calculator-button-active-background-color: rgba(78, 78, 78, 0.342);
+
+  --calculator-button-unique-color: var(--calculator-button-color);
+  --calculator-button-unique-background-color: #636363;
+  --calculator-button-unique-active-background-color: #636363e3;
+
+  --ball-color: rgba(133, 133, 133, 0.966);
+  --checked-slider-color: rgba(255, 255, 255, 0.726);
+
+  --history-global-background-color: rgb(22, 22, 22);
+  --history-buttons-outline-color: rgba(206, 206, 206);
+
+  --history-svgs-fill: rgba(255, 255, 255, 0.726);
+}
+
+:root.dark .input-bar,
+:root.dark .option-toggle,
+:root.dark .display-bar,
+:root.dark .calculation,
+:root.dark .trash-button span {
+  color: var(--text-color);
+}
+
+:root.dark .history-button:focus-visible {
+  outline: var(--history-buttons-outline-width)
+    var(--history-buttons-outline-style) var(--history-buttons-outline-color);
+}
+
+:root.dark input:focus-visible + .slider,
+:root.dark input:checked:focus-visible + .slider {
+  --slider-outline-color: var(--calculator-button-color);
+}
+
+:root.dark .calculator-button:focus-visible,
+:root.dark .calculator-button:last-child:focus-visible {
+  outline: var(--calculator-button-outline-width)
+    var(--calculator-button-outline-style) var(--calculator-button-color);
+}
+
+:root.dark .calculator-button:last-child:focus-visible {
+  outline-color: var(--calculator-button-unique-color);
+}
+
 :root {
   --global-background: rgb(255, 223, 229);
 }
@@ -605,68 +711,5 @@ svg {
     border-radius: calc(var(--calculator-button-border-radius) / 1.25);
 
     font-size: 1.75rem;
-  }
-}
-
-/* simulating dark mode click */
-@media screen and (min-width: 550px) {
-  :root {
-    --global-background: rgb(31, 31, 31);
-    --text-color: rgba(255, 255, 255, 0.726);
-  }
-
-  :root {
-    --calculator-background: rgb(48, 48, 48);
-    --calculator-overlay: none;
-
-    --calculator-button-color: rgba(255, 255, 255, 0.966);
-    --calculator-button-background-color: rgba(78, 78, 78, 0.548);
-    --calculator-button-active-background-color: rgba(78, 78, 78, 0.342);
-
-    --calculator-button-unique-color: var(--calculator-button-color);
-    --calculator-button-unique-background-color: #636363;
-    --calculator-button-unique-active-background-color: #636363e3;
-  }
-
-  :root {
-    --ball-color: rgba(133, 133, 133, 0.966);
-    --checked-slider-color: rgba(255, 255, 255, 0.726);
-  }
-
-  :root {
-    --history-global-background-color: rgb(22, 22, 22);
-    --history-buttons-outline-color: rgba(206, 206, 206);
-  }
-
-  :root {
-    --history-svgs-fill: rgba(255, 255, 255, 0.726);
-  }
-
-  .input-bar,
-  .option-toggle,
-  .display-bar,
-  .calculation,
-  .trash-button span {
-    color: var(--text-color);
-  }
-
-  .history-button:focus-visible {
-    outline: var(--history-buttons-outline-width)
-      var(--history-buttons-outline-style) var(--history-buttons-outline-color);
-  }
-
-  input:focus-visible + .slider,
-  input:checked:focus-visible + .slider {
-    --slider-outline-color: var(--calculator-button-color);
-  }
-
-  .calculator-button:focus-visible,
-  .calculator-button:last-child:focus-visible {
-    outline: var(--calculator-button-outline-width)
-      var(--calculator-button-outline-style) var(--calculator-button-color);
-  }
-
-  .calculator-button:last-child:focus-visible {
-    outline-color: var(--calculator-button-unique-color);
   }
 }
