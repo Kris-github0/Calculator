@@ -56,3 +56,28 @@ document.onclick = (e) => {
     }
   }
 };
+
+const inputBar = document.querySelector(".input-bar");
+const calculatorButtonsContainer =
+  document.getElementById("calculator-buttons");
+
+const deleteButton = document.getElementById("delete-button");
+const equalsButton = document.getElementById("equals-button");
+
+function isCalculatorButton(element) {
+  return (
+    element.getAttribute("class").includes("calculator-button") &&
+    !element.getAttribute("class").includes("calculator-buttons-row") &&
+    element != equalsButton &&
+    element != bracketButton &&
+    element != deleteButton &&
+    element.textContent.length === 1
+  );
+}
+
+calculatorButtonsContainer.addEventListener("click", (e) => {
+  if (isCalculatorButton(e.target)) {
+    inputBar.value += e.target.textContent;
+    inputBar.scrollLeft = inputBar.scrollWidth;
+  }
+});

@@ -116,13 +116,14 @@
               class="input-bar"
               placeholder="input bar"
               spellcheck="false"
+              readonly
             />
             <p class="display-bar">calculation</p>
           </div>
 
-          <div class="calculator-buttons-container">
+          <div class="calculator-buttons-container" id="calculator-buttons">
             <div class="calculator-buttons-row">
-              <button class="calculator-button">del</button>
+              <button class="calculator-button" id="delete-button">del</button>
               <button class="calculator-button" id="brackets-button">
                 ( )
               </button>
@@ -158,7 +159,7 @@
             <div class="calculator-buttons-row">
               <button class="calculator-button">0</button>
               <button class="calculator-button">.</button>
-              <button class="calculator-button">=</button>
+              <button class="calculator-button" id="equals-button">=</button>
             </div>
           </div>
         </div>
