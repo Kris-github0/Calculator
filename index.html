@@ -33,7 +33,7 @@
 
         <div class="calculator-container">
           <div class="history-container">
-            <button class="history-button">
+            <button class="history-button" id="history-button">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 122.88 108.67"
@@ -43,7 +43,10 @@
                 />
               </svg>
             </button>
-            <div class="history-list-container">
+            <div
+              class="history-list-container hide"
+              id="history-list-container"
+            >
               <button class="trash-button">
                 <span>Clear history</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -119,12 +122,14 @@
 
           <div class="calculator-buttons-container">
             <div class="calculator-buttons-row">
-              <div class="brackets">
+              <button class="calculator-button">del</button>
+              <button class="calculator-button" id="brackets-button">
+                ( )
+              </button>
+              <div class="brackets hide" id="brackets-container">
                 <button class="calculator-button bracket">(</button
                 ><button class="calculator-button bracket">)</button>
               </div>
-              <button class="calculator-button">del</button>
-              <button class="calculator-button">( )</button>
               <button class="calculator-button">%</button>
               <button class="calculator-button">/</button>
             </div>
