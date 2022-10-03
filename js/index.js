@@ -25,11 +25,8 @@ bracketButtonsContainer.addEventListener("click", (e) => {
   }
 });
 
-function clickOutside(event, button, toggleElement) {
-  return (
-    !event.composedPath().includes(button) &&
-    !event.composedPath().includes(toggleElement)
-  );
+function clickedOutside(element, event) {
+  return !event.composedPath().includes(element);
 }
 
 function showing(element) {
@@ -41,36 +38,21 @@ function toggle(element, className) {
 }
 
 document.onclick = (e) => {
-  if (!e.composedPath().includes(darkModeButton.parentElement)) {
+  if (clickedOutside(darkModeButton.parentElement, e)) {
     if (
       showing(bracketButtonsContainer) &&
-      clickOutside(e, bracketButton, bracketButtonsContainer)
+      clickedOutside(bracketButton, e) &&
+      clickedOutside(bracketButtonsContainer, e)
     ) {
       toggle(bracketButtonsContainer, "hide");
     }
 
-    if (showing(historyList) && clickOutside(e, historyButton, historyList)) {
+    if (
+      showing(historyList) &&
+      clickedOutside(historyButton, e) &&
+      clickedOutside(historyList, e)
+    ) {
       toggle(historyList, "hide");
     }
   }
 };
-
-/* document.onclick = (e) => {
-  if (!e.composedPath().includes(darkModeButton.parentElement)) {
-    if (
-      !e.composedPath().includes(bracketButton) &&
-      !e.composedPath().includes(bracketButtonsContainer) &&
-      !bracketButtonsContainer.getAttribute("class").includes("hide")
-    ) {
-      bracketButtonsContainer.classList.toggle("hide");
-    }
-
-    if (
-      !e.composedPath().includes(historyButton) &&
-      !e.composedPath().includes(historyList) &&
-      !historyList.getAttribute("class").includes("hide")
-    ) {
-      historyList.classList.toggle("hide");
-    }
-  }
-}; */
