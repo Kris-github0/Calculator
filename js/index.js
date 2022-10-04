@@ -86,14 +86,47 @@ function removeLastChar(string) {
   return string.slice(0, string.length - 1);
 }
 
+function isValidChar(char) {
+  return [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "0",
+    "%",
+    "*",
+    "x",
+    "(",
+    ")",
+    "-",
+    "+",
+    "/",
+    ".",
+    "Backspace",
+    "Enter",
+  ].includes(char);
+}
+
 inputBar.addEventListener("keydown", (e) => {
-  if (e.key === "Backspace") {
-    inputBar.value = removeLastChar(inputBar.value);
+  if (isValidChar(e.key)) {
+    if (e.key === "Backspace") {
+      inputBar.value = removeLastChar(inputBar.value);
+      inputBar.scrollLeft = inputBar.scrollWidth;
+      return;
+    }
+
+    if (e.key === "Enter") {
+      return;
+    }
+
+    inputBar.value += e.key;
     inputBar.scrollLeft = inputBar.scrollWidth;
-    return;
   }
-  inputBar.value += e.key;
-  inputBar.scrollLeft = inputBar.scrollWidth;
 });
 
 deleteButton.addEventListener("click", () => {
