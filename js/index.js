@@ -81,3 +81,8 @@ calculatorButtonsContainer.addEventListener("click", (e) => {
     inputBar.scrollLeft = inputBar.scrollWidth;
   }
 });
+
+inputBar.addEventListener("keydown", (e) => {
+  inputBar.value += e.key;
+  inputBar.scrollLeft = inputBar.scrollWidth;
+});
