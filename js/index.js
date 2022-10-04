@@ -82,7 +82,21 @@ calculatorButtonsContainer.addEventListener("click", (e) => {
   }
 });
 
+function removeLastChar(string) {
+  return string.slice(0, string.length - 1);
+}
+
 inputBar.addEventListener("keydown", (e) => {
+  if (e.key === "Backspace") {
+    inputBar.value = removeLastChar(inputBar.value);
+    inputBar.scrollLeft = inputBar.scrollWidth;
+    return;
+  }
   inputBar.value += e.key;
+  inputBar.scrollLeft = inputBar.scrollWidth;
+});
+
+deleteButton.addEventListener("click", () => {
+  inputBar.value = removeLastChar(inputBar.value);
   inputBar.scrollLeft = inputBar.scrollWidth;
 });
