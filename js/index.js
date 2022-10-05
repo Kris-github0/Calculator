@@ -77,6 +77,12 @@ function isCalculatorButton(element) {
 
 calculatorButtonsContainer.addEventListener("click", (e) => {
   if (isCalculatorButton(e.target)) {
+    if (e.target.textContent === "x") {
+      inputBar.value += "×";
+      inputBar.scrollLeft = inputBar.scrollWidth;
+      return;
+    }
+
     inputBar.value += e.target.textContent;
     inputBar.scrollLeft = inputBar.scrollWidth;
   }
@@ -101,6 +107,7 @@ function isValidChar(char) {
     "%",
     "*",
     "x",
+    "×",
     "(",
     ")",
     "-",
@@ -121,6 +128,12 @@ inputBar.addEventListener("keydown", (e) => {
     }
 
     if (e.key === "Enter") {
+      return;
+    }
+
+    if (e.key === "x") {
+      inputBar.value += "×";
+      inputBar.scrollLeft = inputBar.scrollWidth;
       return;
     }
 
