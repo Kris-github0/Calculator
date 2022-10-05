@@ -79,17 +79,20 @@ calculatorButtonsContainer.addEventListener("click", (e) => {
   if (isCalculatorButton(e.target)) {
     if (e.target.textContent === "x") {
       inputBar.value += "×";
+      validString(inputBar.value);
       inputBar.scrollLeft = inputBar.scrollWidth;
       return;
     }
 
     if (e.target.textContent === "/") {
       inputBar.value += "÷";
+      validString(inputBar.value);
       inputBar.scrollLeft = inputBar.scrollWidth;
       return;
     }
 
     inputBar.value += e.target.textContent;
+    validString(inputBar.value);
     inputBar.scrollLeft = inputBar.scrollWidth;
   }
 });
@@ -139,17 +142,20 @@ inputBar.addEventListener("keydown", (e) => {
 
     if (e.key === "/") {
       inputBar.value += "÷";
+      validString(inputBar.value);
       inputBar.scrollLeft = inputBar.scrollWidth;
       return;
     }
 
     if (e.key === "X" || e.key === "x" || e.key === "*") {
       inputBar.value += "×";
+      validString(inputBar.value);
       inputBar.scrollLeft = inputBar.scrollWidth;
       return;
     }
 
     inputBar.value += e.key;
+    validString(inputBar.value);
     inputBar.scrollLeft = inputBar.scrollWidth;
   }
 });
@@ -158,3 +164,54 @@ deleteButton.addEventListener("click", () => {
   inputBar.value = removeLastChar(inputBar.value);
   inputBar.scrollLeft = inputBar.scrollWidth;
 });
+
+function validString(string) {
+  const regex = [
+    /^[^0-9-(]/,
+    /[.][^()×÷+-]*[.]/,
+    /[(]*×[^0-9-(]/,
+    /[(]*÷[^0-9-(]/,
+    /[(]*[+][^0-9(]/,
+    /[-][^0-9(]/,
+    /[^0-9]*[.][^0-9]/,
+    /[^0-9][.]/,
+    /[^0-9)][%]/,
+    /[%][^()×÷+-]/,
+    /^0[^.%(×÷+-]/,
+    /[()×÷+-]0[^%()×÷+-.]/,
+    /[(×÷+-][0][0-9]+[.]/,
+    /[(][)]/,
+    /[^0-9%)][+×÷]/,
+  ];
+
+  for (let i = 0; i < regex.length; i++) {
+    if (regex[i].test(string)) {
+      inputBar.value = removeLastChar(inputBar.value);
+      return;
+    }
+  }
+
+  let a = 0;
+  for (let i = 0; i < inputBar.value.length; i++) {
+    console.log(inputBar.value);
+    if (inputBar.value[i] === "(") {
+      a++;
+    }
+    if (inputBar.value[i] === ")") {
+      a--;
+    }
+
+    if (a < 0) {
+      inputBar.value = removeLastChar(inputBar.value);
+      return;
+    }
+  }
+}
+
+function convertFromTo(from, to, string) {
+  return string.replaceAll(from, to);
+}
+
+function calculation(string) {
+  return eval(string);
+}
