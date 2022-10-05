@@ -58,6 +58,7 @@ document.onclick = (e) => {
 };
 
 const inputBar = document.querySelector(".input-bar");
+const displayBar = document.querySelector(".display-bar");
 const calculatorButtonsContainer =
   document.getElementById("calculator-buttons");
 
@@ -95,6 +96,8 @@ calculatorButtonsContainer.addEventListener("click", (e) => {
     validString(inputBar.value);
     inputBar.scrollLeft = inputBar.scrollWidth;
   }
+
+  displayBar.textContent = calculation(buildCalculationString(inputBar.value));
 });
 
 function removeLastChar(string) {
@@ -133,6 +136,10 @@ inputBar.addEventListener("keydown", (e) => {
     if (e.key === "Backspace") {
       inputBar.value = removeLastChar(inputBar.value);
       inputBar.scrollLeft = inputBar.scrollWidth;
+
+      displayBar.textContent = calculation(
+        buildCalculationString(inputBar.value)
+      );
       return;
     }
 
@@ -157,6 +164,10 @@ inputBar.addEventListener("keydown", (e) => {
     inputBar.value += e.key;
     validString(inputBar.value);
     inputBar.scrollLeft = inputBar.scrollWidth;
+
+    displayBar.textContent = calculation(
+      buildCalculationString(inputBar.value)
+    );
   }
 });
 
@@ -193,7 +204,6 @@ function validString(string) {
 
   let a = 0;
   for (let i = 0; i < inputBar.value.length; i++) {
-    console.log(inputBar.value);
     if (inputBar.value[i] === "(") {
       a++;
     }
@@ -212,6 +222,22 @@ function convertFromTo(from, to, string) {
   return string.replaceAll(from, to);
 }
 
+function buildCalculationString(string) {
+  let newString = convertFromTo("×", "*", string);
+  newString = convertFromTo("÷", "/", newString);
+  newString = convertFromTo("%", "*0.01", newString);
+  newString = convertFromTo(/[0-9)][(]/g, inBetween, newString);
+  newString = convertFromTo(/[)][0-9(]/g, inBetween, newString);
+  return newString;
+}
+
+function inBetween(match) {
+  return match[0] + "*" + match[1];
+}
+
 function calculation(string) {
+  if (String(eval(string)).length > 12) {
+    return eval(string).toPrecision(6);
+  }
   return eval(string);
 }

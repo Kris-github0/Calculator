@@ -451,8 +451,6 @@ svg {
 }
 
 .calculation-display-container {
-  padding-right: 10px;
-
   text-align: right;
 }
 
@@ -471,9 +469,10 @@ svg {
 }
 
 .display-bar {
+  height: 49px;
   margin-top: 15px;
 
-  font-size: 2.5rem;
+  font-size: 2.15rem;
 }
 
 /* Calculator buttons */
@@ -607,6 +606,10 @@ svg {
   :root {
     --slider-height: 26px;
   }
+
+  .display-bar {
+    font-size: 2.25rem;
+  }
 }
 
 @media screen and (min-width: 320px) {
@@ -657,12 +660,22 @@ svg {
     font-size: 1rem;
   }
 
+  .calculation-display-container {
+    padding: 0 10px;
+  }
+
   .input-bar {
-    font-size: 2.25rem;
+    font-size: 2rem;
   }
 
   .display-bar {
-    font-size: 3.5rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    height: 68px;
+
+    font-size: 2.75rem;
   }
 
   .calculator-buttons-container {
@@ -692,8 +705,12 @@ svg {
     height: 370px;
   }
 
-  .calculation-display-container {
-    padding: 0 10px;
+  .input-bar {
+    font-size: 2.25rem;
+  }
+
+  .display-bar {
+    font-size: 3rem;
   }
 
   .brackets {
