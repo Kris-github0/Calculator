@@ -692,6 +692,10 @@ svg {
     height: 370px;
   }
 
+  .calculation-display-container {
+    padding: 0 10px;
+  }
+
   .brackets {
     left: 27.4%;
     top: 25%;
