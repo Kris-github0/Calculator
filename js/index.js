@@ -83,6 +83,12 @@ calculatorButtonsContainer.addEventListener("click", (e) => {
       return;
     }
 
+    if (e.target.textContent === "/") {
+      inputBar.value += "÷";
+      inputBar.scrollLeft = inputBar.scrollWidth;
+      return;
+    }
+
     inputBar.value += e.target.textContent;
     inputBar.scrollLeft = inputBar.scrollWidth;
   }
@@ -107,7 +113,7 @@ function isValidChar(char) {
     "%",
     "*",
     "x",
-    "×",
+    "X",
     "(",
     ")",
     "-",
@@ -131,7 +137,13 @@ inputBar.addEventListener("keydown", (e) => {
       return;
     }
 
-    if (e.key === "x") {
+    if (e.key === "/") {
+      inputBar.value += "÷";
+      inputBar.scrollLeft = inputBar.scrollWidth;
+      return;
+    }
+
+    if (e.key === "X" || e.key === "x" || e.key === "*") {
       inputBar.value += "×";
       inputBar.scrollLeft = inputBar.scrollWidth;
       return;
