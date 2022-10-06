@@ -82,6 +82,9 @@ calculatorButtonsContainer.addEventListener("click", (e) => {
       inputBar.value += "×";
       validString(inputBar.value);
       inputBar.scrollLeft = inputBar.scrollWidth;
+      displayBar.textContent = calculation(
+        buildCalculationString(inputBar.value)
+      );
       return;
     }
 
@@ -89,6 +92,9 @@ calculatorButtonsContainer.addEventListener("click", (e) => {
       inputBar.value += "÷";
       validString(inputBar.value);
       inputBar.scrollLeft = inputBar.scrollWidth;
+      displayBar.textContent = calculation(
+        buildCalculationString(inputBar.value)
+      );
       return;
     }
 
@@ -151,6 +157,10 @@ inputBar.addEventListener("keydown", (e) => {
       inputBar.value += "÷";
       validString(inputBar.value);
       inputBar.scrollLeft = inputBar.scrollWidth;
+
+      displayBar.textContent = calculation(
+        buildCalculationString(inputBar.value)
+      );
       return;
     }
 
@@ -158,6 +168,10 @@ inputBar.addEventListener("keydown", (e) => {
       inputBar.value += "×";
       validString(inputBar.value);
       inputBar.scrollLeft = inputBar.scrollWidth;
+      displayBar.textContent = calculation(
+        buildCalculationString(inputBar.value)
+      );
+
       return;
     }
 
@@ -257,7 +271,36 @@ function shrink(result) {
   return removeTrailingZeros(result, String(roundedResult));
 }
 
+function rewind(expression) {
+  return calculation(expression.slice(0, expression.length - 1));
+}
+
+function invalidExpression(expression) {
+  const NUMBER_AND_OPERATOR_ONLY = !/[0-9)][*/+-][0-9(]/.test(expression);
+
+  if (NUMBER_AND_OPERATOR_ONLY) {
+    return "";
+  }
+
+  const LastValidExpression = rewind(expression);
+
+  return LastValidExpression;
+}
+
 function calculation(expression) {
+  try {
+    eval(expression);
+  } catch (error) {
+    return invalidExpression(expression);
+  }
+
+  const NO_OPERATOR = !/[*/+-]/.test(expression);
+  const STARTS_WITH_MINUS = /^[-]*[0-9]+$/.test(expression);
+
+  if (NO_OPERATOR || STARTS_WITH_MINUS) {
+    return "";
+  }
+
   const result = eval(expression);
   const TOO_LONG = String(result).length > 12;
 
