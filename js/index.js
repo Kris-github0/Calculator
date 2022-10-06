@@ -223,21 +223,47 @@ function convertFromTo(from, to, string) {
 }
 
 function buildCalculationString(string) {
-  let newString = convertFromTo("×", "*", string);
+  let newString;
+  newString = convertFromTo("×", "*", string);
   newString = convertFromTo("÷", "/", newString);
   newString = convertFromTo("%", "*0.01", newString);
-  newString = convertFromTo(/[0-9)][(]/g, inBetween, newString);
-  newString = convertFromTo(/[)][0-9(]/g, inBetween, newString);
+  newString = convertFromTo(/[0-9)][(]/g, addAsteriskInBetween, newString);
+  newString = convertFromTo(/[)][0-9(]/g, addAsteriskInBetween, newString);
   return newString;
 }
 
-function inBetween(match) {
+function addAsteriskInBetween(match) {
   return match[0] + "*" + match[1];
 }
 
-function calculation(string) {
-  if (String(eval(string)).length > 12) {
-    return eval(string).toPrecision(6);
+function removeTrailingZeros(number, string) {
+  let zeroCount = 0;
+
+  for (let i = 0; i < string.length; i++) {
+    if (string[i] === "e") {
+      break;
+    } else if (string[i] === "0") {
+      zeroCount++;
+    } else {
+      zeroCount = 0;
+    }
   }
-  return eval(string);
+
+  return number.toPrecision(6 - zeroCount);
+}
+
+function shrink(result) {
+  const roundedResult = result.toPrecision(6);
+  return removeTrailingZeros(result, String(roundedResult));
+}
+
+function calculation(expression) {
+  const result = eval(expression);
+  const TOO_LONG = String(result).length > 12;
+
+  if (TOO_LONG) {
+    return shrink(result);
+  }
+
+  return result;
 }
