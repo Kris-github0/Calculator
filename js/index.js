@@ -80,25 +80,12 @@ calculatorButtonsContainer.addEventListener("click", (e) => {
   if (isCalculatorButton(e.target)) {
     if (e.target.textContent === "x") {
       inputBar.value += "×";
-      validString(inputBar.value);
-      inputBar.scrollLeft = inputBar.scrollWidth;
-      displayBar.textContent = calculation(
-        buildCalculationString(inputBar.value)
-      );
-      return;
-    }
-
-    if (e.target.textContent === "/") {
+    } else if (e.target.textContent === "/") {
       inputBar.value += "÷";
-      validString(inputBar.value);
-      inputBar.scrollLeft = inputBar.scrollWidth;
-      displayBar.textContent = calculation(
-        buildCalculationString(inputBar.value)
-      );
-      return;
+    } else {
+      inputBar.value += e.target.textContent;
     }
 
-    inputBar.value += e.target.textContent;
     validString(inputBar.value);
     inputBar.scrollLeft = inputBar.scrollWidth;
   }
@@ -141,41 +128,16 @@ inputBar.addEventListener("keydown", (e) => {
   if (isValidChar(e.key)) {
     if (e.key === "Backspace") {
       inputBar.value = removeLastChar(inputBar.value);
-      inputBar.scrollLeft = inputBar.scrollWidth;
-
-      displayBar.textContent = calculation(
-        buildCalculationString(inputBar.value)
-      );
+    } else if (e.key === "Enter") {
       return;
-    }
-
-    if (e.key === "Enter") {
-      return;
-    }
-
-    if (e.key === "/") {
+    } else if (e.key === "/") {
       inputBar.value += "÷";
-      validString(inputBar.value);
-      inputBar.scrollLeft = inputBar.scrollWidth;
-
-      displayBar.textContent = calculation(
-        buildCalculationString(inputBar.value)
-      );
-      return;
-    }
-
-    if (e.key === "X" || e.key === "x" || e.key === "*") {
+    } else if (e.key === "X" || e.key === "x" || e.key === "*") {
       inputBar.value += "×";
-      validString(inputBar.value);
-      inputBar.scrollLeft = inputBar.scrollWidth;
-      displayBar.textContent = calculation(
-        buildCalculationString(inputBar.value)
-      );
-
-      return;
+    } else {
+      inputBar.value += e.key;
     }
 
-    inputBar.value += e.key;
     validString(inputBar.value);
     inputBar.scrollLeft = inputBar.scrollWidth;
 
