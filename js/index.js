@@ -77,6 +77,10 @@ function isCalculatorButton(element) {
 }
 
 calculatorButtonsContainer.addEventListener("click", (e) => {
+  if (e.target === bracketButton || e.target === equalsButton) {
+    return;
+  }
+
   if (isCalculatorButton(e.target)) {
     if (e.target.textContent === "x") {
       inputBar.value += "×";
@@ -129,6 +133,7 @@ inputBar.addEventListener("keydown", (e) => {
     if (e.key === "Backspace") {
       inputBar.value = removeLastChar(inputBar.value);
     } else if (e.key === "Enter") {
+      equals();
       return;
     } else if (e.key === "/") {
       inputBar.value += "÷";
@@ -146,6 +151,71 @@ inputBar.addEventListener("keydown", (e) => {
     );
   }
 });
+
+function equals() {
+  const DISPLAY_BAR_NOT_EMPTY = displayBar.textContent;
+
+  if (DISPLAY_BAR_NOT_EMPTY) {
+    toggle(inputBar, "move-up-input");
+    toggle(displayBar, "move-up-display");
+    inputBar.disabled = true;
+    toggleCalculatorButtons(true);
+  }
+}
+
+function switchOver() {
+  inputBar.value = displayBar.textContent;
+  displayBar.textContent = "";
+}
+
+const calculatorButtons = document.querySelectorAll(".calculator-button");
+
+function toggleCalculatorButtons(bool) {
+  calculatorButtons.forEach((button) => {
+    if (button === equalsButton) {
+      return;
+    }
+
+    button.disabled = bool;
+  });
+}
+
+const calculationDisplayContainer = document.querySelector(
+  ".calculation-display-container"
+);
+
+calculationDisplayContainer.addEventListener("transitionend", (e) => {
+  const ANY_TRANSITION_END = e.propertyName === "font-size";
+
+  if (ANY_TRANSITION_END) {
+    toggle(inputBar, "move-up-input");
+    toggle(displayBar, "move-up-display");
+
+    switchOver();
+
+    inputBar.disabled = false;
+    toggleCalculatorButtons(false);
+  }
+});
+
+function cancelTransition() {
+  inputBar.classList.remove("move-up-input");
+  displayBar.classList.remove("move-up-display");
+}
+
+calculationDisplayContainer.addEventListener("transitioncancel", (e) => {
+  const ANY_TRANSITION_CANCELLED = e.propertyName === "font-size";
+
+  if (ANY_TRANSITION_CANCELLED) {
+    cancelTransition();
+    switchOver();
+
+    inputBar.disabled = false;
+    toggleCalculatorButtons(false);
+  }
+});
+
+equalsButton.addEventListener("click", equals);
 
 deleteButton.addEventListener("click", () => {
   inputBar.value = removeLastChar(inputBar.value);
@@ -168,7 +238,9 @@ function validString(string) {
     /[()×÷+-]0[^%()×÷+-.]/,
     /[(×÷+-][0][0-9]+[.]/,
     /[(][)]/,
-    /[^0-9%)][+×÷]/,
+    /[^0-9%)][×÷]/,
+    /[^e0-9%)][+]/,
+    /[e][^+-]/,
   ];
 
   for (let i = 0; i < regex.length; i++) {

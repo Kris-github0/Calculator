@@ -597,6 +597,23 @@ svg {
   width: var(--calculator-button-span2-col);
 }
 
+.move-up-input {
+  transition: 1s all;
+  opacity: 0;
+  transform: translateY(-60px);
+  position: relative;
+  z-index: -1;
+}
+
+.move-up-display {
+  font-family: Arial;
+
+  transition: 0.833s all;
+  letter-spacing: 1px;
+  transform: translate3d(-2px, -48px, 0px);
+  font-size: 1.75rem;
+}
+
 @media screen and (min-width: 280px) {
   :root {
     --calculator-button-width: 70px;
@@ -609,6 +626,10 @@ svg {
 
   .display-bar {
     font-size: 2.25rem;
+  }
+
+  .move-up-display {
+    font-size: 1.75rem;
   }
 }
 
@@ -678,6 +699,11 @@ svg {
     font-size: 2.75rem;
   }
 
+  .move-up-display {
+    transform: translate3d(-2px, -68px, 0px);
+    font-size: 2rem;
+  }
+
   .calculator-buttons-container {
     text-align: center;
   }
@@ -711,6 +737,11 @@ svg {
 
   .display-bar {
     font-size: 3rem;
+  }
+
+  .move-up-display {
+    transform: translate3d(-2px, -71px, 0px);
+    font-size: 2.25rem;
   }
 
   .brackets {
