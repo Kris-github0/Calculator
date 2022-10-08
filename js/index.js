@@ -329,10 +329,10 @@ function calculation(expression) {
   }
 
   const NO_OPERATOR = !/[*/+-]/.test(expression);
-  const STARTS_WITH_MINUS = /^[-]*[0-9]+$/.test(expression);
+  const JUST_NUMBER = /^[-]*[0-9]+[.]*[0-9]*$/.test(expression);
   const JUST_E_NUMBER = /^[0-9]+[.][0-9]+e[+-][0-9]+$/.test(expression);
 
-  if (NO_OPERATOR || STARTS_WITH_MINUS || JUST_E_NUMBER) {
+  if (NO_OPERATOR || JUST_NUMBER || JUST_E_NUMBER) {
     return "";
   }
 
