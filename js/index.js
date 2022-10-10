@@ -284,25 +284,25 @@ function addAsteriskInBetween(match) {
   return match[0] + "*" + match[1];
 }
 
-function removeTrailingZeros(number, string) {
-  let zeroCount = 0;
+function resize(number) {
+  let i = String(number).length;
 
-  for (let i = 0; i < string.length; i++) {
-    if (string[i] === "e") {
-      break;
-    } else if (string[i] === "0") {
-      zeroCount++;
-    } else {
-      zeroCount = 0;
-    }
+  while (String(number.toPrecision(i)).length >= 13) {
+    i--;
   }
 
-  return number.toPrecision(6 - zeroCount);
-}
+  const ENDS_WITH_ZEROS = /[0-9][.]*[0-9]*[0]+$/;
+  const E_NUMBER_WITH_TRAILING_ZEROS = /[0]+[e][-+][0-9]+$/;
 
-function shrink(result) {
-  const roundedResult = result.toPrecision(6);
-  return removeTrailingZeros(result, String(roundedResult));
+  while (
+    (ENDS_WITH_ZEROS.test(String(number.toPrecision(i))) &&
+      !String(number.toPrecision(i)).includes("e")) ||
+    E_NUMBER_WITH_TRAILING_ZEROS.test(String(number.toPrecision(i)))
+  ) {
+    i--;
+  }
+
+  return number.toPrecision(i);
 }
 
 function rewind(expression) {
@@ -329,8 +329,8 @@ function calculation(expression) {
   }
 
   const NO_OPERATOR = !/[*/+-]/.test(expression);
-  const JUST_NUMBER = /^[-]*[0-9]+[.]*[0-9]*$/.test(expression);
-  const JUST_E_NUMBER = /^[0-9]+[.][0-9]+e[+-][0-9]+$/.test(expression);
+  const JUST_NUMBER = /^[-]*[(]*[-]*[0-9]+[.]*[0-9]*[)]*$/.test(expression);
+  const JUST_E_NUMBER = /^[-]*[0-9]+[.][0-9]+e[+-][0-9]+$/.test(expression);
 
   if (NO_OPERATOR || JUST_NUMBER || JUST_E_NUMBER) {
     return "";
@@ -340,7 +340,7 @@ function calculation(expression) {
   const TOO_LONG = String(result).length > 12;
 
   if (TOO_LONG) {
-    return shrink(result);
+    return resize(result);
   }
 
   return result;
