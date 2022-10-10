@@ -65,7 +65,7 @@ const calculatorButtonsContainer =
 const deleteButton = document.getElementById("delete-button");
 const equalsButton = document.getElementById("equals-button");
 
-function isCalculatorButton(element) {
+function displayableCalculatorButton(element) {
   return (
     element.getAttribute("class").includes("calculator-button") &&
     !element.getAttribute("class").includes("calculator-buttons-row") &&
@@ -81,7 +81,7 @@ calculatorButtonsContainer.addEventListener("click", (e) => {
     return;
   }
 
-  if (isCalculatorButton(e.target)) {
+  if (displayableCalculatorButton(e.target)) {
     if (e.target.textContent === "x") {
       inputBar.value += "×";
     } else if (e.target.textContent === "/") {
@@ -90,7 +90,7 @@ calculatorButtonsContainer.addEventListener("click", (e) => {
       inputBar.value += e.target.textContent;
     }
 
-    validString(inputBar.value);
+    makeValidString(inputBar.value);
     inputBar.scrollLeft = inputBar.scrollWidth;
   }
 
@@ -101,7 +101,7 @@ function removeLastChar(string) {
   return string.slice(0, string.length - 1);
 }
 
-function isValidChar(char) {
+function validChar(char) {
   return [
     "1",
     "2",
@@ -128,28 +128,41 @@ function isValidChar(char) {
   ].includes(char);
 }
 
-inputBar.addEventListener("keydown", (e) => {
-  if (isValidChar(e.key)) {
-    if (e.key === "Backspace") {
-      inputBar.value = removeLastChar(inputBar.value);
-    } else if (e.key === "Enter") {
-      equals();
-      return;
-    } else if (e.key === "/") {
-      inputBar.value += "÷";
-    } else if (e.key === "X" || e.key === "x" || e.key === "*") {
-      inputBar.value += "×";
-    } else {
-      inputBar.value += e.key;
-    }
+document.addEventListener("keydown", (e) => {
+  const HISTORY_LIST_VISIBLE = !historyList
+    .getAttribute("class")
+    .includes("hide");
 
-    validString(inputBar.value);
-    inputBar.scrollLeft = inputBar.scrollWidth;
+  const CALCULATOR_BUTTON_FOCUSED =
+    e.target.hasAttribute("class") &&
+    e.target.getAttribute("class").includes("calculator-button");
 
-    displayBar.textContent = calculation(
-      buildCalculationString(inputBar.value)
-    );
+  const HISTORY_BUTTON_FOCUSED = historyButton === document.activeElement;
+
+  if (!validChar(e.key) || inputBar.disabled || HISTORY_LIST_VISIBLE) {
+    return;
   }
+
+  if (e.key === "Backspace") {
+    inputBar.value = removeLastChar(inputBar.value);
+  } else if (e.key === "Enter") {
+    if (CALCULATOR_BUTTON_FOCUSED || HISTORY_BUTTON_FOCUSED) {
+      return;
+    }
+    equals();
+    return;
+  } else if (e.key === "/") {
+    inputBar.value += "÷";
+  } else if (e.key === "X" || e.key === "x" || e.key === "*") {
+    inputBar.value += "×";
+  } else {
+    inputBar.value += e.key;
+  }
+
+  makeValidString(inputBar.value);
+  inputBar.scrollLeft = inputBar.scrollWidth;
+
+  displayBar.textContent = calculation(buildCalculationString(inputBar.value));
 });
 
 function equals() {
@@ -222,7 +235,7 @@ deleteButton.addEventListener("click", () => {
   inputBar.scrollLeft = inputBar.scrollWidth;
 });
 
-function validString(string) {
+function makeValidString(string) {
   const regex = [
     /^[^0-9-(]/,
     /[.][^()×÷+-]*[.]/,
@@ -291,11 +304,11 @@ function resize(number) {
     i--;
   }
 
-  const ENDS_WITH_ZEROS = /[0-9][.]*[0-9]*[0]+$/;
+  const FLOAT_ENDS_WITH_ZEROS = /[0-9][.][0-9]*[0]+$/;
   const E_NUMBER_WITH_TRAILING_ZEROS = /[0]+[e][-+][0-9]+$/;
 
   while (
-    (ENDS_WITH_ZEROS.test(String(number.toPrecision(i))) &&
+    (FLOAT_ENDS_WITH_ZEROS.test(String(number.toPrecision(i))) &&
       !String(number.toPrecision(i)).includes("e")) ||
     E_NUMBER_WITH_TRAILING_ZEROS.test(String(number.toPrecision(i)))
   ) {
