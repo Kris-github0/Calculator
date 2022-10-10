@@ -165,10 +165,18 @@ document.addEventListener("keydown", (e) => {
   displayBar.textContent = calculation(buildCalculationString(inputBar.value));
 });
 
+function copyToClipboard() {
+  navigator.clipboard.writeText(displayBar.textContent);
+}
+
 function equals() {
   const DISPLAY_BAR_NOT_EMPTY = displayBar.textContent;
+  const AUTO_COPY_BUTTON_CHECKED = document.getElementById("auto-copy").checked;
 
   if (DISPLAY_BAR_NOT_EMPTY) {
+    if (AUTO_COPY_BUTTON_CHECKED) {
+      copyToClipboard();
+    }
     toggle(inputBar, "move-up-input");
     toggle(displayBar, "move-up-display");
     inputBar.disabled = true;
