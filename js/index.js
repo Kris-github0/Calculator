@@ -128,6 +128,15 @@ function validChar(char) {
   ].includes(char);
 }
 
+document.addEventListener("mouseup", (e) => {
+  if (
+    e.target.hasAttribute("class") &&
+    e.target.getAttribute("class").includes("calculator-button")
+  ) {
+    inputBar.focus();
+  }
+});
+
 document.addEventListener("keydown", (e) => {
   const HISTORY_LIST_VISIBLE = !historyList
     .getAttribute("class")
