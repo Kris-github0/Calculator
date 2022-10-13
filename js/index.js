@@ -128,6 +128,19 @@ function validChar(char) {
   ].includes(char);
 }
 
+const clearHistoryButton = document.getElementById("main-trash-button");
+const historyUl = document.querySelector(".history-list");
+
+function clearHistory() {
+  while (historyUl.lastChild) {
+    historyUl.removeChild(historyUl.lastChild);
+  }
+}
+
+clearHistoryButton.addEventListener("click", () => {
+  clearHistory();
+});
+
 document.addEventListener("mouseup", (e) => {
   if (
     e.target.hasAttribute("class") &&
@@ -174,9 +187,162 @@ document.addEventListener("keydown", (e) => {
   displayBar.textContent = calculation(buildCalculationString(inputBar.value));
 });
 
-function copyToClipboard() {
-  navigator.clipboard.writeText(displayBar.textContent);
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text);
 }
+
+function alreadyInHistoryList(newExpression) {
+  const expressions = document.querySelectorAll(".calculation-expression");
+
+  for (let i = 0; i < expressions.length; i++) {
+    if (newExpression == expressions[i].textContent) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function prepareExpressionForDisplay(expression) {
+  let newExpression = String(expression);
+
+  try {
+    eval(buildCalculationString(expression));
+  } catch (error) {
+    newExpression = prepareExpressionForDisplay(removeLastChar(newExpression));
+  }
+
+  return newExpression;
+}
+
+let NOT_NOTIFIED = 1;
+function notify() {
+  NOT_NOTIFIED = 0;
+  const tooltip = document.querySelector(".tooltip");
+
+  tooltip.classList.add("show-tooltip");
+
+  setTimeout(function hideNotification() {
+    tooltip.classList.remove("show-tooltip");
+  }, 2500);
+}
+
+function buildLi() {
+  const validInputBar = prepareExpressionForDisplay(inputBar.value);
+
+  const fragment = new DocumentFragment();
+
+  const li = document.createElement("li");
+
+  li.innerHTML = `<div class="history-calculation-container">
+  <div class="calculation">
+    <span class="calculation-expression">${validInputBar}</span>
+    <span class="calculation-equals">=</span>
+    <span class="answer">${displayBar.textContent}</span>
+  </div>
+
+  <div class="calculation-options-container">
+    <button class="copy-button">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 111.07 122.88"
+      >
+        <g>
+          <path
+            d="M97.67,20.81L97.67,20.81l0.01,0.02c3.7,0.01,7.04,1.51,9.46,3.93c2.4,2.41,3.9,5.74,3.9,9.42h0.02v0.02v75.28 v0.01h-0.02c-0.01,3.68-1.51,7.03-3.93,9.46c-2.41,2.4-5.74,3.9-9.42,3.9v0.02h-0.02H38.48h-0.01v-0.02 c-3.69-0.01-7.04-1.5-9.46-3.93c-2.4-2.41-3.9-5.74-3.91-9.42H25.1c0-25.96,0-49.34,0-75.3v-0.01h0.02 c0.01-3.69,1.52-7.04,3.94-9.46c2.41-2.4,5.73-3.9,9.42-3.91v-0.02h0.02C58.22,20.81,77.95,20.81,97.67,20.81L97.67,20.81z M0.02,75.38L0,13.39v-0.01h0.02c0.01-3.69,1.52-7.04,3.93-9.46c2.41-2.4,5.74-3.9,9.42-3.91V0h0.02h59.19 c7.69,0,8.9,9.96,0.01,10.16H13.4h-0.02v-0.02c-0.88,0-1.68,0.37-2.27,0.97c-0.59,0.58-0.96,1.4-0.96,2.27h0.02v0.01v3.17 c0,19.61,0,39.21,0,58.81C10.17,83.63,0.02,84.09,0.02,75.38L0.02,75.38z M100.91,109.49V34.2v-0.02h0.02 c0-0.87-0.37-1.68-0.97-2.27c-0.59-0.58-1.4-0.96-2.28-0.96v0.02h-0.01H38.48h-0.02v-0.02c-0.88,0-1.68,0.38-2.27,0.97 c-0.59,0.58-0.96,1.4-0.96,2.27h0.02v0.01v75.28v0.02h-0.02c0,0.88,0.38,1.68,0.97,2.27c0.59,0.59,1.4,0.96,2.27,0.96v-0.02h0.01 h59.19h0.02v0.02c0.87,0,1.68-0.38,2.27-0.97c0.59-0.58,0.96-1.4,0.96-2.27L100.91,109.49L100.91,109.49L100.91,109.49 L100.91,109.49z"
+          />
+        </g>
+      </svg>
+    </button>
+    <button class="trash-button">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+      >
+        <g>
+          <path
+            d="M19.45,4.06H15.27v-.5a1.5,1.5,0,0,0-1.5-1.5H10.23a1.5,1.5,0,0,0-1.5,1.5v.5H4.55a.5.5,0,0,0,0,1h.72l.42,14.45a2.493,2.493,0,0,0,2.5,2.43h7.62a2.493,2.493,0,0,0,2.5-2.43l.42-14.45h.72A.5.5,0,0,0,19.45,4.06Zm-9.72-.5a.5.5,0,0,1,.5-.5h3.54a.5.5,0,0,1,.5.5v.5H9.73Zm7.58,15.92a1.5,1.5,0,0,1-1.5,1.46H8.19a1.5,1.5,0,0,1-1.5-1.46L6.26,5.06H17.74Z"
+          />
+          <path
+            d="M8.375,8h0a.5.5,0,0,1,1,0l.25,10a.5.5,0,0,1-1,0Z"
+          />
+          <path
+            d="M15.625,8.007a.5.5,0,0,0-1,0h0l-.25,10a.5.5,0,0,0,1,0Z"
+          />
+        </g>
+      </svg>
+    </button>
+  </div>
+</div>`;
+
+  return fragment.appendChild(li);
+}
+
+function invalidHistoryInput() {
+  const HISTORY_LIST_FULL = document.querySelectorAll("li").length === 100;
+
+  if (HISTORY_LIST_FULL) {
+    if (NOT_NOTIFIED) {
+      notify();
+    }
+
+    return true;
+  }
+
+  NOT_NOTIFIED = 1;
+
+  if (alreadyInHistoryList(inputBar.value)) {
+    return true;
+  }
+}
+
+function addToHistoryList() {
+  if (invalidHistoryInput()) {
+    return;
+  }
+  const li = buildLi();
+  historyUl.prepend(li);
+}
+
+function elementIs(type, element) {
+  return element.hasAttribute("class") && element.classList.contains(type);
+}
+
+function getLi(element) {
+  return element.parentElement.parentElement.parentElement;
+}
+
+function getAnswer(li) {
+  return li.firstElementChild.firstElementChild.lastElementChild.textContent;
+}
+
+function placeBackIntoCalculator(element) {
+  const expression = element.firstElementChild.textContent;
+  const answer = element.lastElementChild.textContent;
+
+  inputBar.value = expression;
+  displayBar.textContent = answer;
+}
+
+historyUl.addEventListener("click", (e) => {
+  if (elementIs("copy-button", e.target)) {
+    const li = getLi(e.target);
+    const answer = getAnswer(li);
+
+    copyToClipboard(answer);
+  }
+
+  if (elementIs("trash-button", e.target)) {
+    const li = getLi(e.target);
+
+    historyUl.removeChild(li);
+  }
+
+  if (elementIs("calculation", e.target.parentElement)) {
+    placeBackIntoCalculator(e.target.parentElement);
+    toggle(historyList, "hide");
+  }
+});
 
 function equals() {
   const DISPLAY_BAR_NOT_EMPTY = displayBar.textContent;
@@ -184,8 +350,9 @@ function equals() {
 
   if (DISPLAY_BAR_NOT_EMPTY) {
     if (AUTO_COPY_BUTTON_CHECKED) {
-      copyToClipboard();
+      copyToClipboard(displayBar.textContent);
     }
+    addToHistoryList();
     toggle(inputBar, "move-up-input");
     toggle(displayBar, "move-up-display");
     inputBar.disabled = true;

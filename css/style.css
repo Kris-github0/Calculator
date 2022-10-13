@@ -348,6 +348,50 @@ input:checked + .slider::before {
   padding-left: 5px;
 }
 
+.tooltip {
+  position: absolute;
+  z-index: 1;
+  top: 5px;
+  left: 55px;
+
+  width: 50px;
+  padding: 2px 0;
+  border-radius: 8px;
+
+  font-size: 1rem;
+  text-align: center;
+
+  color: var(--text-color);
+  background-color: var(--global-background);
+}
+
+.tooltip::after {
+  content: " ";
+
+  position: absolute;
+  top: 50%;
+  right: 100%;
+
+  margin-top: -5px;
+
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent var(--global-background) transparent transparent;
+}
+
+.tooltip {
+  transition: transform 0.75s, opacity 0.75s;
+
+  opacity: 0;
+  transform: translateY(13px);
+}
+
+.show-tooltip {
+  transform: translateY(0px);
+
+  opacity: 1;
+}
+
 .history-list-container {
   position: absolute;
   z-index: 2;
@@ -366,14 +410,58 @@ input:checked + .slider::before {
 }
 
 .history-list {
+  height: 100%;
   margin: 0 5px;
   margin-top: 20px;
+
+  overflow-y: auto;
+}
+
+.history-list li:not(:last-child) {
+  margin-bottom: 2px;
 }
 
 .history-calculation-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.calculation {
+  display: flex;
+  align-items: center;
+
+  max-width: 190px;
+  max-width: 76%;
+}
+
+.calculation:hover {
+  padding-top: 1.5px;
+  border-bottom: 1.5px solid var(--history-svgs-fill);
+
+  cursor: pointer;
+}
+
+.calculation:active {
+  transform: translateY(0.5px);
+}
+
+.calculation span:first-child {
+  display: inline-block;
+
+  max-width: 140px;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.calculation span:first-child,
+.answer {
+  white-space: nowrap;
+}
+
+.calculation-equals {
+  padding: 0 5px;
 }
 
 :root {
@@ -388,6 +476,8 @@ input:checked + .slider::before {
 
 svg {
   fill: var(--history-svgs-fill);
+
+  pointer-events: none;
 }
 
 .history-button {
@@ -403,11 +493,29 @@ svg {
 }
 
 .copy-button svg {
-  margin-bottom: 2px;
+  margin-bottom: 3px;
+}
+
+.calculation-options-container .trash-button svg {
+  margin-bottom: 1.25px;
+}
+
+.trash-button:active svg,
+.copy-button:active,
+.calculation-options-container .trash-button:active {
+  transition: transform 0.1s ease;
+  transform: translateY(1.5px);
 }
 
 .trash-button {
   margin-top: 5px;
+}
+
+.calculation-options-container {
+  display: flex;
+  justify-content: space-between;
+
+  width: 55px;
 }
 
 .calculation-options-container .trash-button {
@@ -672,6 +780,10 @@ svg {
     margin-top: 2.5px;
   }
 
+  .calculation-options-container {
+    width: 60px;
+  }
+
   .history-list-container > .trash-button svg {
     width: 38px;
   }
@@ -729,6 +841,30 @@ svg {
 
   .history-list-container {
     height: 370px;
+  }
+
+  .history-list li:not(:last-child) {
+    margin-bottom: 5px;
+  }
+
+  .calculation {
+    max-width: 260px;
+  }
+
+  .calculation span:first-child {
+    max-width: 100%;
+  }
+
+  .calculation-options-container {
+    width: 69.5px;
+  }
+
+  .copy-button svg {
+    margin-bottom: 2px;
+  }
+
+  .calculation-options-container .trash-button svg {
+    margin: 0;
   }
 
   .input-bar {
