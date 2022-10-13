@@ -197,6 +197,14 @@ button {
   background: none;
 }
 
+.history-button,
+.copy-button,
+.trash-button,
+.calculator-button,
+.calculation:hover {
+  cursor: pointer;
+}
+
 main {
   display: flex;
   justify-content: center;
@@ -463,8 +471,6 @@ input:checked + .slider::before {
 .calculation:hover {
   padding-top: 1.5px;
   border-bottom: 1.5px solid var(--history-svgs-fill);
-
-  cursor: pointer;
 }
 
 .calculation:active {
