@@ -415,8 +415,93 @@ calculationDisplayContainer.addEventListener("transitioncancel", (e) => {
 equalsButton.addEventListener("click", equals);
 
 deleteButton.addEventListener("click", () => {
-  inputBar.value = removeLastChar(inputBar.value);
-  inputBar.scrollLeft = inputBar.scrollWidth;
+  if (!calculatorContainer.getAttribute("class").includes("wipeout-slider")) {
+    inputBar.value = removeLastChar(inputBar.value);
+    inputBar.scrollLeft = inputBar.scrollWidth;
+  }
+});
+
+let goAgain = 1;
+let mouseIsDown = false;
+let timeout;
+
+function deleteButtonResetState() {
+  goAgain = 1;
+  mouseIsDown = false;
+}
+
+document.addEventListener("click", (e) => {
+  if (e.target !== deleteButton) {
+    deleteButtonResetState();
+  }
+});
+
+deleteButton.addEventListener("blur", () => {
+  deleteButtonResetState();
+});
+
+deleteButton.addEventListener("keydown", (e) => {
+  if (e.key === " ") {
+    clearInput();
+  }
+});
+
+deleteButton.addEventListener("keyup", (e) => {
+  if (e.key === " ") {
+    deleteButtonResetState();
+    clearTimeout(timeout);
+  }
+});
+
+const calculatorContainer = document.querySelector(".calculator-container");
+
+calculatorContainer.addEventListener("transitionend", (e) => {
+  if (e.target !== calculatorContainer) {
+    return;
+  }
+
+  const FIRST_HALF_ENDED = calculatorContainer
+    .getAttribute("class")
+    .includes("wipeout-slider");
+  const SECOND_HALF_ENDED = !FIRST_HALF_ENDED;
+
+  if (FIRST_HALF_ENDED) {
+    calculatorContainer.classList.remove("wipeout-slider");
+    inputBar.value = "";
+    displayBar.textContent = "";
+  }
+
+  if (SECOND_HALF_ENDED) {
+    inputBar.disabled = false;
+    toggleCalculatorButtons(false);
+    goAgain = 1;
+  }
+});
+
+function clearInput() {
+  if (!goAgain || inputBar.value === "") {
+    return;
+  }
+
+  goAgain = 0;
+  mouseIsDown = true;
+
+  timeout = setTimeout(() => {
+    if (mouseIsDown) {
+      calculatorContainer.classList.add("wipeout-slider");
+      inputBar.disabled = true;
+      toggleCalculatorButtons(true);
+    }
+  }, 750);
+}
+
+deleteButton.addEventListener("mousedown", () => {
+  clearInput();
+});
+
+deleteButton.addEventListener("mouseup", () => {
+  deleteButtonResetState();
+  clearTimeout(timeout);
 });
 
 function makeValidString(string) {
