@@ -1,26 +1,22 @@
 const darkModeButton = document.getElementById("dark-mode");
 const HTML = document.querySelector("html");
 
-darkModeButton.addEventListener("click", () => {
-  toggle(HTML, "dark");
-});
+darkModeButton.addEventListener("click", () => toggle(HTML, "dark"));
 
 const historyButton = document.getElementById("history-button");
-const historyList = document.getElementById("history-list-container");
+const historyContainer = document.getElementById("history-list-container");
 
-historyButton.addEventListener("click", () => {
-  toggle(historyList, "hide");
-});
+historyButton.addEventListener("click", () => toggle(historyContainer, "hide"));
 
-const bracketButton = document.getElementById("brackets-button");
+const dualBracketButton = document.getElementById("brackets-button");
 const bracketButtonsContainer = document.getElementById("brackets-container");
 
-bracketButton.addEventListener("click", () => {
-  toggle(bracketButtonsContainer, "hide");
-});
+dualBracketButton.addEventListener("click", () =>
+  toggle(bracketButtonsContainer, "hide")
+);
 
 bracketButtonsContainer.addEventListener("click", (e) => {
-  if (e.target.getAttribute("class").includes("calculator-button")) {
+  if (elementIs("calculator-button", e.target)) {
     toggle(bracketButtonsContainer, "hide");
   }
 });
@@ -41,18 +37,18 @@ document.onclick = (e) => {
   if (clickedOutside(darkModeButton.parentElement, e)) {
     if (
       showing(bracketButtonsContainer) &&
-      clickedOutside(bracketButton, e) &&
+      clickedOutside(dualBracketButton, e) &&
       clickedOutside(bracketButtonsContainer, e)
     ) {
       toggle(bracketButtonsContainer, "hide");
     }
 
     if (
-      showing(historyList) &&
+      showing(historyContainer) &&
       clickedOutside(historyButton, e) &&
-      clickedOutside(historyList, e)
+      clickedOutside(historyContainer, e)
     ) {
-      toggle(historyList, "hide");
+      toggle(historyContainer, "hide");
     }
   }
 };
@@ -67,17 +63,22 @@ const equalsButton = document.getElementById("equals-button");
 
 function displayableCalculatorButton(element) {
   return (
-    element.getAttribute("class").includes("calculator-button") &&
-    !element.getAttribute("class").includes("calculator-buttons-row") &&
+    elementIs("calculator-button", element) &&
+    !elementIs("calculator-buttons-row", element) &&
     element != equalsButton &&
-    element != bracketButton &&
+    element != dualBracketButton &&
     element != deleteButton &&
     element.textContent.length === 1
   );
 }
 
 calculatorButtonsContainer.addEventListener("click", (e) => {
-  if (e.target === bracketButton || e.target === equalsButton) {
+  const TARGET_DOESNT_CHANGE_EXPRESSION =
+    e.target === dualBracketButton ||
+    e.target === equalsButton ||
+    elementIs("calculator-buttons-row", e.target);
+
+  if (TARGET_DOESNT_CHANGE_EXPRESSION) {
     return;
   }
 
@@ -94,7 +95,7 @@ calculatorButtonsContainer.addEventListener("click", (e) => {
     inputBar.scrollLeft = inputBar.scrollWidth;
   }
 
-  displayBar.textContent = calculation(buildCalculationString(inputBar.value));
+  displayBar.textContent = calculation(buildCalculation(inputBar.value));
 });
 
 function removeLastChar(string) {
@@ -102,7 +103,7 @@ function removeLastChar(string) {
 }
 
 function validChar(char) {
-  return [
+  const VALID_CHAR_LIST = [
     "1",
     "2",
     "3",
@@ -125,43 +126,36 @@ function validChar(char) {
     ".",
     "Backspace",
     "Enter",
-  ].includes(char);
+  ];
+
+  return VALID_CHAR_LIST.includes(char);
 }
 
 const clearHistoryButton = document.getElementById("main-trash-button");
-const historyUl = document.querySelector(".history-list");
+const historyList = document.querySelector(".history-list");
 
 function clearHistory() {
-  while (historyUl.lastChild) {
-    historyUl.removeChild(historyUl.lastChild);
+  while (historyList.lastChild) {
+    historyList.removeChild(historyList.lastChild);
   }
 }
 
-clearHistoryButton.addEventListener("click", () => {
-  clearHistory();
-});
+clearHistoryButton.addEventListener("click", clearHistory);
 
 document.addEventListener("mouseup", (e) => {
-  if (
-    e.target.hasAttribute("class") &&
-    e.target.getAttribute("class").includes("calculator-button")
-  ) {
+  if (elementIs("calculator-button", e.target)) {
     inputBar.focus();
   }
 });
 
 document.addEventListener("keydown", (e) => {
-  const HISTORY_LIST_VISIBLE = !historyList
+  const HISTORY_CONTAINER_VISIBLE = !historyContainer
     .getAttribute("class")
     .includes("hide");
-
-  const CALCULATOR_BUTTON_FOCUSED =
-    e.target.hasAttribute("class") &&
-    e.target.getAttribute("class").includes("calculator-button");
-
+  const CALCULATOR_BUTTON_FOCUSED = elementIs("calculator-button", e.target);
   const HISTORY_BUTTON_FOCUSED = historyButton === document.activeElement;
 
-  if (!validChar(e.key) || inputBar.disabled || HISTORY_LIST_VISIBLE) {
+  if (!validChar(e.key) || inputBar.disabled || HISTORY_CONTAINER_VISIBLE) {
     return;
   }
 
@@ -184,18 +178,18 @@ document.addEventListener("keydown", (e) => {
   makeValidString(inputBar.value);
   inputBar.scrollLeft = inputBar.scrollWidth;
 
-  displayBar.textContent = calculation(buildCalculationString(inputBar.value));
+  displayBar.textContent = calculation(buildCalculation(inputBar.value));
 });
 
-function copyToClipboard(text) {
-  navigator.clipboard.writeText(text);
+function copyToClipboard(answer) {
+  navigator.clipboard.writeText(answer);
 }
 
 function alreadyInHistoryList(newExpression) {
   const expressions = document.querySelectorAll(".calculation-expression");
 
   for (let i = 0; i < expressions.length; i++) {
-    if (newExpression == expressions[i].textContent) {
+    if (newExpression === expressions[i].textContent) {
       return true;
     }
   }
@@ -203,13 +197,13 @@ function alreadyInHistoryList(newExpression) {
   return false;
 }
 
-function prepareExpressionForDisplay(expression) {
+function buildExpressionForDisplay(expression) {
   let newExpression = String(expression);
 
   try {
-    eval(buildCalculationString(expression));
+    eval(buildCalculation(expression));
   } catch (error) {
-    newExpression = prepareExpressionForDisplay(removeLastChar(newExpression));
+    newExpression = buildExpressionForDisplay(removeLastChar(newExpression));
   }
 
   return newExpression;
@@ -228,7 +222,7 @@ function notify() {
 }
 
 function buildLi() {
-  const validInputBar = prepareExpressionForDisplay(inputBar.value);
+  const validInputBar = buildExpressionForDisplay(inputBar.value);
 
   const fragment = new DocumentFragment();
 
@@ -301,7 +295,7 @@ function addToHistoryList() {
     return;
   }
   const li = buildLi();
-  historyUl.prepend(li);
+  historyList.prepend(li);
 }
 
 function elementIs(type, element) {
@@ -324,7 +318,7 @@ function placeBackIntoCalculator(element) {
   displayBar.textContent = answer;
 }
 
-historyUl.addEventListener("click", (e) => {
+historyList.addEventListener("click", (e) => {
   if (elementIs("copy-button", e.target)) {
     const li = getLi(e.target);
     const answer = getAnswer(li);
@@ -335,14 +329,19 @@ historyUl.addEventListener("click", (e) => {
   if (elementIs("trash-button", e.target)) {
     const li = getLi(e.target);
 
-    historyUl.removeChild(li);
+    historyList.removeChild(li);
   }
 
   if (elementIs("calculation", e.target.parentElement)) {
     placeBackIntoCalculator(e.target.parentElement);
-    toggle(historyList, "hide");
+    toggle(historyContainer, "hide");
   }
 });
+
+function preventInput(bool) {
+  inputBar.disabled = bool;
+  toggleCalculatorButtons(bool);
+}
 
 function equals() {
   const DISPLAY_BAR_NOT_EMPTY = displayBar.textContent;
@@ -355,8 +354,7 @@ function equals() {
     addToHistoryList();
     toggle(inputBar, "move-up-input");
     toggle(displayBar, "move-up-display");
-    inputBar.disabled = true;
-    toggleCalculatorButtons(true);
+    preventInput(true);
   }
 }
 
@@ -382,16 +380,15 @@ const calculationDisplayContainer = document.querySelector(
 );
 
 calculationDisplayContainer.addEventListener("transitionend", (e) => {
-  const ANY_TRANSITION_END = e.propertyName === "font-size";
+  const MOVE_UP_TRANSITION_END = e.propertyName === "font-size";
 
-  if (ANY_TRANSITION_END) {
+  if (MOVE_UP_TRANSITION_END) {
     toggle(inputBar, "move-up-input");
     toggle(displayBar, "move-up-display");
 
     switchOver();
 
-    inputBar.disabled = false;
-    toggleCalculatorButtons(false);
+    preventInput(false);
   }
 });
 
@@ -401,106 +398,105 @@ function cancelTransition() {
 }
 
 calculationDisplayContainer.addEventListener("transitioncancel", (e) => {
-  const ANY_TRANSITION_CANCELLED = e.propertyName === "font-size";
+  const MOVE_UP_TRANSITION_CANCELLED = e.propertyName === "font-size";
 
-  if (ANY_TRANSITION_CANCELLED) {
+  if (MOVE_UP_TRANSITION_CANCELLED) {
     cancelTransition();
     switchOver();
 
-    inputBar.disabled = false;
-    toggleCalculatorButtons(false);
+    preventInput(false);
   }
 });
 
 equalsButton.addEventListener("click", equals);
 
 deleteButton.addEventListener("click", () => {
-  if (!calculatorContainer.getAttribute("class").includes("wipeout-slider")) {
+  const DELETE_TRANSITION_NOT_ONGOING = !calculatorContainer
+    .getAttribute("class")
+    .includes("wipeout-slider");
+
+  if (DELETE_TRANSITION_NOT_ONGOING) {
     inputBar.value = removeLastChar(inputBar.value);
     inputBar.scrollLeft = inputBar.scrollWidth;
   }
 });
 
-let goAgain = 1;
+let on = 1;
 let mouseIsDown = false;
 let timeout;
 
-function deleteButtonResetState() {
-  goAgain = 1;
+function resetDeleteButtonState() {
+  on = 1;
   mouseIsDown = false;
 }
 
 document.addEventListener("click", (e) => {
   if (e.target !== deleteButton) {
-    deleteButtonResetState();
+    resetDeleteButtonState();
   }
 });
 
-deleteButton.addEventListener("blur", () => {
-  deleteButtonResetState();
-});
+deleteButton.addEventListener("blur", resetDeleteButtonState);
 
 deleteButton.addEventListener("keydown", (e) => {
   if (e.key === " ") {
-    clearInput();
+    initiateTimer();
   }
 });
 
 deleteButton.addEventListener("keyup", (e) => {
   if (e.key === " ") {
-    deleteButtonResetState();
+    resetDeleteButtonState();
     clearTimeout(timeout);
   }
 });
 
 const calculatorContainer = document.querySelector(".calculator-container");
 
+function clearDisplay() {
+  calculatorContainer.classList.remove("wipeout-slider");
+  inputBar.value = "";
+  displayBar.textContent = "";
+}
+
 calculatorContainer.addEventListener("transitionend", (e) => {
   if (e.target !== calculatorContainer) {
     return;
   }
 
-  const FIRST_HALF_ENDED = calculatorContainer
-    .getAttribute("class")
-    .includes("wipeout-slider");
+  const FIRST_HALF_ENDED = elementIs("wipeout-slider", calculatorContainer);
   const SECOND_HALF_ENDED = !FIRST_HALF_ENDED;
 
   if (FIRST_HALF_ENDED) {
-    calculatorContainer.classList.remove("wipeout-slider");
-    inputBar.value = "";
-    displayBar.textContent = "";
+    clearDisplay();
   }
 
   if (SECOND_HALF_ENDED) {
-    inputBar.disabled = false;
-    toggleCalculatorButtons(false);
-    goAgain = 1;
+    preventInput(false);
+    on = 1;
   }
 });
 
-function clearInput() {
-  if (!goAgain || inputBar.value === "") {
+function initiateTimer() {
+  if (!on || inputBar.value === "") {
     return;
   }
 
-  goAgain = 0;
+  on = 0;
   mouseIsDown = true;
 
   timeout = setTimeout(() => {
     if (mouseIsDown) {
       calculatorContainer.classList.add("wipeout-slider");
-      inputBar.disabled = true;
-      toggleCalculatorButtons(true);
+      preventInput(true);
     }
   }, 750);
 }
 
-deleteButton.addEventListener("mousedown", () => {
-  clearInput();
-});
+deleteButton.addEventListener("mousedown", initiateTimer);
 
 deleteButton.addEventListener("mouseup", () => {
-  deleteButtonResetState();
+  resetDeleteButtonState();
   clearTimeout(timeout);
 });
 
@@ -532,6 +528,12 @@ function makeValidString(string) {
     }
   }
 
+  if (invalidBrackets()) {
+    inputBar.value = removeLastChar(inputBar.value);
+  }
+}
+
+function invalidBrackets() {
   let a = 0;
   for (let i = 0; i < inputBar.value.length; i++) {
     if (inputBar.value[i] === "(") {
@@ -542,17 +544,18 @@ function makeValidString(string) {
     }
 
     if (a < 0) {
-      inputBar.value = removeLastChar(inputBar.value);
-      return;
+      return true;
     }
   }
+
+  return false;
 }
 
 function convertFromTo(from, to, string) {
   return string.replaceAll(from, to);
 }
 
-function buildCalculationString(string) {
+function buildCalculation(string) {
   let newString;
   newString = convertFromTo("×", "*", string);
   newString = convertFromTo("÷", "/", newString);
@@ -568,8 +571,9 @@ function addAsteriskInBetween(match) {
 
 function resize(number) {
   let i = String(number).length;
+  const CHAR_LIMIT = 13;
 
-  while (String(number.toPrecision(i)).length >= 13) {
+  while (String(number.toPrecision(i)).length >= CHAR_LIMIT) {
     i--;
   }
 
