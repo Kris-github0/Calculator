@@ -230,6 +230,8 @@ main {
 .global-options-container {
   display: flex;
   justify-content: space-between;
+
+  max-height: 22px;
 }
 
 /* Toggle button */
@@ -260,6 +262,7 @@ main {
   align-items: center;
 
   font-size: var(--option-toggle-font-size);
+  font-size: clamp(10px, var(--option-toggle-font-size), 16px);
 }
 
 .hide-input {
@@ -380,6 +383,8 @@ input:checked + .slider::before {
 .history-container {
   position: relative;
   padding-left: 5px;
+
+  font-size: clamp(20px, 2rem, 34px);
 }
 
 .tooltip {
@@ -452,8 +457,12 @@ input:checked + .slider::before {
   overflow-y: auto;
 }
 
+.history-list li:first-child {
+  margin-top: 8px;
+}
+
 .history-list li:not(:last-child) {
-  margin-bottom: 2px;
+  margin-bottom: 22px;
 }
 
 .history-calculation-container {
@@ -519,18 +528,16 @@ svg {
 
   width: 45px;
   margin-top: 15px;
+
+  font-size: clamp(20px, 2rem, 34px);
 }
 
 .copy-button {
-  width: 30px;
-}
+  display: flex;
+  align-self: center;
 
-.copy-button svg {
-  margin-bottom: 3px;
-}
-
-.calculation-options-container .trash-button svg {
-  margin-bottom: 1.25px;
+  min-width: 24.38px;
+  width: 1.875rem;
 }
 
 .trash-button:active svg,
@@ -552,7 +559,14 @@ svg {
 }
 
 .calculation-options-container .trash-button {
-  width: 35px;
+  position: relative;
+  top: 0.5px;
+
+  display: flex;
+  align-self: center;
+
+  min-width: 28.44px;
+  width: 2.188rem;
   margin: 0;
 }
 
@@ -572,6 +586,7 @@ svg {
 .trash-button span,
 .calculation {
   font-size: 0.85rem;
+  font-size: clamp(12px, 0.85rem, 19px);
 }
 
 .history-button:focus-visible,
@@ -584,6 +599,7 @@ svg {
 /* Input */
 :root {
   --calculation-display-color: rgb(49, 0, 99);
+  --input-bar-font-size: clamp(17.5px, 1.75rem, 29px);
 }
 
 .input-bar,
@@ -592,13 +608,20 @@ svg {
 }
 
 .calculation-display-container {
+  min-height: 89px;
+  max-height: 105px;
+
   text-align: right;
+
+  font-size: clamp(20px, 2rem, 34px);
 }
 
 .input-bar {
   width: 100%;
 
   font-size: 1.75rem;
+  font-size: var(--input-bar-font-size);
+
   letter-spacing: 1px;
   text-align: right;
 
@@ -614,6 +637,7 @@ svg {
   margin-top: 15px;
 
   font-size: 2.15rem;
+  font-size: clamp(21.5px, 2.15rem, 34.4px);
 }
 
 /* Calculator buttons */
@@ -682,6 +706,10 @@ svg {
 
   transition: transform 0.5s ease;
   transition: background-color 0.1s ease;
+}
+
+.calculator-button {
+  font-size: clamp(20px, 2rem, 44px);
 }
 
 .bracket {
@@ -754,7 +782,7 @@ svg {
 
   font-family: Arial;
   font-size: 1.75rem;
-
+  font-size: var(--input-bar-font-size);
   letter-spacing: 1px;
 
   transform: translate3d(-2px, -48px, 0px);
@@ -770,6 +798,10 @@ svg {
     --slider-height: 26px;
   }
 
+  .global-options-container {
+    max-height: 26px;
+  }
+
   .calculator-container::after {
     right: -280px;
 
@@ -780,12 +812,23 @@ svg {
     transform: translateX(-280px);
   }
 
+  .history-container,
+  .history-button {
+    font-size: clamp(20px, 2rem, 34px);
+  }
+
   .display-bar {
     font-size: 2.25rem;
+    font-size: clamp(22.5px, 2.25rem, 34.4px);
   }
 
   .move-up-display {
     font-size: 1.75rem;
+    font-size: var(--input-bar-font-size);
+  }
+
+  .calculator-button {
+    font-size: clamp(20px, 2rem, 48px);
   }
 }
 
@@ -809,6 +852,10 @@ svg {
 
   .wrapper {
     width: 370px;
+  }
+
+  .option-toggle {
+    font-size: clamp(10px, var(--option-toggle-font-size), 20px);
   }
 
   .calculator-container {
@@ -835,6 +882,11 @@ svg {
     transform: translateX(-100%);
   }
 
+  .history-container,
+  .history-button {
+    font-size: clamp(22px, 2rem, 34px);
+  }
+
   .history-button {
     width: 50px;
   }
@@ -847,21 +899,32 @@ svg {
     width: 60px;
   }
 
+  .history-list li:not(:last-child) {
+    margin-bottom: 19px;
+  }
+
   .history-list-container > .trash-button svg {
     width: 38px;
   }
 
   .history-list-container .trash-button span,
   .calculation {
-    font-size: 1rem;
+    font-size: clamp(13px, 1rem, 21px);
   }
 
   .calculation-display-container {
+    min-height: 108px;
+    max-height: 125px;
     padding: 0 10px;
+  }
+
+  :root {
+    --input-bar-font-size: clamp(20px, 2rem, 34px);
   }
 
   .input-bar {
     font-size: 2rem;
+    font-size: var(--input-bar-font-size);
   }
 
   .display-bar {
@@ -872,12 +935,14 @@ svg {
     height: 68px;
 
     font-size: 2.6rem;
+    font-size: clamp(26px, 2.6rem, 41.6px);
   }
 
   .move-up-display {
     transform: translate3d(-2px, -68px, 0px);
 
     font-size: 2rem;
+    font-size: var(--input-bar-font-size);
   }
 
   .calculator-buttons-container {
@@ -895,6 +960,14 @@ svg {
   .calculator-buttons-row {
     display: block;
   }
+
+  .calculator-buttons-row {
+    font-size: clamp(32px, 2rem, 32px);
+  }
+
+  .calculator-button {
+    font-size: clamp(20px, 2rem, 34px);
+  }
 }
 
 @media screen and (min-width: 370px) {
@@ -903,8 +976,12 @@ svg {
     --calculator-button-height: 80px;
   }
 
+  .option-toggle {
+    font-size: clamp(10px, var(--option-toggle-font-size), 25px);
+  }
+
   .calculator-container::after {
-    top: 60px;
+    top: 57px;
     right: -370px;
 
     width: 370px;
@@ -919,10 +996,6 @@ svg {
     height: 370px;
   }
 
-  .history-list li:not(:last-child) {
-    margin-bottom: 5px;
-  }
-
   .calculation {
     max-width: 260px;
   }
@@ -935,26 +1008,35 @@ svg {
     width: 69.5px;
   }
 
-  .copy-button svg {
-    margin-bottom: 2px;
+  .history-container,
+  .history-button {
+    font-size: clamp(20px, 2rem, 34px);
   }
 
-  .calculation-options-container .trash-button svg {
-    margin: 0;
+  .calculation-display-container {
+    min-height: 111px;
+    max-height: 128px;
+  }
+
+  :root {
+    --input-bar-font-size: clamp(22.5px, 2.25rem, 38px);
   }
 
   .input-bar {
     font-size: 2.25rem;
+    font-size: var(--input-bar-font-size);
   }
 
   .display-bar {
     font-size: 3rem;
+    font-size: clamp(30px, 3rem, 48px);
   }
 
   .move-up-display {
     transform: translate3d(-2px, -71px, 0px);
 
     font-size: 2.25rem;
+    font-size: var(--input-bar-font-size);
   }
 
   .brackets {
@@ -970,5 +1052,9 @@ svg {
     border-radius: calc(var(--calculator-button-border-radius) / 1.25);
 
     font-size: 1.75rem;
+  }
+
+  .calculator-button {
+    font-size: clamp(20px, 2rem, 50px);
   }
 }
