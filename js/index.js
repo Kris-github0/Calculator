@@ -281,6 +281,7 @@ function buildLi() {
 
 function invalidHistoryInput() {
   const HISTORY_LIST_IS_FULL = document.querySelectorAll("li").length === 100;
+  const formattedInputBar = buildExpressionForDisplay(inputBar.value);
 
   if (HISTORY_LIST_IS_FULL) {
     if (!NOTIFIED) {
@@ -292,7 +293,7 @@ function invalidHistoryInput() {
 
   NOTIFIED = 0;
 
-  if (alreadyInHistoryList(inputBar.value)) {
+  if (alreadyInHistoryList(formattedInputBar)) {
     return true;
   }
 }
