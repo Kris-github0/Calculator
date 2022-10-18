@@ -21,12 +21,12 @@ bracketButtonsContainer.addEventListener("click", (e) => {
   }
 });
 
-function clickedOutside(element, event) {
+function clickWasOutside(element, event) {
   return !event.composedPath().includes(element);
 }
 
-function showing(element) {
-  return !element.getAttribute("class").includes("hide");
+function containerIsShowing(container) {
+  return !container.getAttribute("class").includes("hide");
 }
 
 function toggle(element, className) {
@@ -34,19 +34,19 @@ function toggle(element, className) {
 }
 
 document.onclick = (e) => {
-  if (clickedOutside(darkModeButton.parentElement, e)) {
+  if (clickWasOutside(darkModeButton.parentElement, e)) {
     if (
-      showing(bracketButtonsContainer) &&
-      clickedOutside(dualBracketButton, e) &&
-      clickedOutside(bracketButtonsContainer, e)
+      containerIsShowing(bracketButtonsContainer) &&
+      clickWasOutside(dualBracketButton, e) &&
+      clickWasOutside(bracketButtonsContainer, e)
     ) {
       toggle(bracketButtonsContainer, "hide");
     }
 
     if (
-      showing(historyContainer) &&
-      clickedOutside(historyButton, e) &&
-      clickedOutside(historyContainer, e)
+      containerIsShowing(historyContainer) &&
+      clickWasOutside(historyButton, e) &&
+      clickWasOutside(historyContainer, e)
     ) {
       toggle(historyContainer, "hide");
     }
@@ -73,24 +73,16 @@ function displayableCalculatorButton(element) {
 }
 
 calculatorButtonsContainer.addEventListener("click", (e) => {
+  const GUTTER = elementIs("calculator-buttons-row", e.target);
   const TARGET_DOESNT_CHANGE_EXPRESSION =
-    e.target === dualBracketButton ||
-    e.target === equalsButton ||
-    elementIs("calculator-buttons-row", e.target);
+    e.target === dualBracketButton || e.target === equalsButton || GUTTER;
 
   if (TARGET_DOESNT_CHANGE_EXPRESSION) {
     return;
   }
 
   if (displayableCalculatorButton(e.target)) {
-    if (e.target.textContent === "x") {
-      inputBar.value += "×";
-    } else if (e.target.textContent === "/") {
-      inputBar.value += "÷";
-    } else {
-      inputBar.value += e.target.textContent;
-    }
-
+    addUserInputToInputBar(e.target.textContent);
     makeValidString(inputBar.value);
     inputBar.scrollLeft = inputBar.scrollWidth;
   }
@@ -102,7 +94,7 @@ function removeLastChar(string) {
   return string.slice(0, string.length - 1);
 }
 
-function validChar(char) {
+function inputIsValid(char) {
   const VALID_CHAR_LIST = [
     "1",
     "2",
@@ -148,33 +140,49 @@ document.addEventListener("mouseup", (e) => {
   }
 });
 
+function addUserInputToInputBar(char) {
+  switch (char) {
+    case "Backspace":
+      inputBar.value = removeLastChar(inputBar.value);
+      return;
+
+    case "/":
+      inputBar.value += "÷";
+      return;
+
+    case "X":
+    case "x":
+    case "*":
+      inputBar.value += "×";
+      return;
+
+    default:
+      inputBar.value += char;
+  }
+}
+
 document.addEventListener("keydown", (e) => {
-  const HISTORY_CONTAINER_VISIBLE = !historyContainer
-    .getAttribute("class")
-    .includes("hide");
   const CALCULATOR_BUTTON_FOCUSED = elementIs("calculator-button", e.target);
   const HISTORY_BUTTON_FOCUSED = historyButton === document.activeElement;
 
-  if (!validChar(e.key) || inputBar.disabled || HISTORY_CONTAINER_VISIBLE) {
+  if (
+    !inputIsValid(e.key) ||
+    inputBar.disabled ||
+    containerIsShowing(historyContainer)
+  ) {
     return;
   }
 
-  if (e.key === "Backspace") {
-    inputBar.value = removeLastChar(inputBar.value);
-  } else if (e.key === "Enter") {
+  if (e.key === "Enter") {
     if (CALCULATOR_BUTTON_FOCUSED || HISTORY_BUTTON_FOCUSED) {
       return;
     }
+
     equals();
     return;
-  } else if (e.key === "/") {
-    inputBar.value += "÷";
-  } else if (e.key === "X" || e.key === "x" || e.key === "*") {
-    inputBar.value += "×";
-  } else {
-    inputBar.value += e.key;
   }
 
+  addUserInputToInputBar(e.key);
   makeValidString(inputBar.value);
   inputBar.scrollLeft = inputBar.scrollWidth;
 
@@ -203,15 +211,16 @@ function buildExpressionForDisplay(expression) {
   try {
     eval(buildCalculation(expression));
   } catch (error) {
-    newExpression = buildExpressionForDisplay(removeLastChar(newExpression));
+    newExpression = removeLastChar(newExpression);
+    newExpression = buildExpressionForDisplay(newExpression);
   }
 
   return newExpression;
 }
 
-let NOT_NOTIFIED = 1;
+let NOTIFIED = 0;
 function notify() {
-  NOT_NOTIFIED = 0;
+  NOTIFIED = 1;
   const tooltip = document.querySelector(".tooltip");
 
   tooltip.classList.add("show-tooltip");
@@ -222,15 +231,13 @@ function notify() {
 }
 
 function buildLi() {
-  const validInputBar = buildExpressionForDisplay(inputBar.value);
-
+  const formattedInputBar = buildExpressionForDisplay(inputBar.value);
   const fragment = new DocumentFragment();
-
   const li = document.createElement("li");
 
   li.innerHTML = `<div class="history-calculation-container">
   <div class="calculation">
-    <span class="calculation-expression">${validInputBar}</span>
+    <span class="calculation-expression">${formattedInputBar}</span>
     <span class="calculation-equals">=</span>
     <span class="answer">${displayBar.textContent}</span>
   </div>
@@ -273,27 +280,28 @@ function buildLi() {
 }
 
 function invalidHistoryInput() {
-  const HISTORY_LIST_FULL = document.querySelectorAll("li").length === 100;
+  const HISTORY_LIST_IS_FULL = document.querySelectorAll("li").length === 100;
 
-  if (HISTORY_LIST_FULL) {
-    if (NOT_NOTIFIED) {
+  if (HISTORY_LIST_IS_FULL) {
+    if (!NOTIFIED) {
       notify();
     }
 
     return true;
   }
 
-  NOT_NOTIFIED = 1;
+  NOTIFIED = 0;
 
   if (alreadyInHistoryList(inputBar.value)) {
     return true;
   }
 }
 
-function addToHistoryList() {
+function addCalculationToHistoryList() {
   if (invalidHistoryInput()) {
     return;
   }
+
   const li = buildLi();
   historyList.prepend(li);
 }
@@ -319,22 +327,25 @@ function placeBackIntoCalculator(element) {
 }
 
 historyList.addEventListener("click", (e) => {
+  if (elementIs("calculation", e.target.parentElement)) {
+    placeBackIntoCalculator(e.target.parentElement);
+    toggle(historyContainer, "hide");
+    return;
+  }
+
   if (elementIs("copy-button", e.target)) {
     const li = getLi(e.target);
     const answer = getAnswer(li);
 
     copyToClipboard(answer);
+    return;
   }
 
   if (elementIs("trash-button", e.target)) {
     const li = getLi(e.target);
 
     historyList.removeChild(li);
-  }
-
-  if (elementIs("calculation", e.target.parentElement)) {
-    placeBackIntoCalculator(e.target.parentElement);
-    toggle(historyContainer, "hide");
+    return;
   }
 });
 
@@ -344,21 +355,24 @@ function preventInput(bool) {
 }
 
 function equals() {
-  const DISPLAY_BAR_NOT_EMPTY = displayBar.textContent;
+  const DISPLAY_BAR_IS_EMPTY = !displayBar.textContent;
   const AUTO_COPY_BUTTON_CHECKED = document.getElementById("auto-copy").checked;
 
-  if (DISPLAY_BAR_NOT_EMPTY) {
-    if (AUTO_COPY_BUTTON_CHECKED) {
-      copyToClipboard(displayBar.textContent);
-    }
-    addToHistoryList();
-    toggle(inputBar, "move-up-input");
-    toggle(displayBar, "move-up-display");
-    preventInput(true);
+  if (DISPLAY_BAR_IS_EMPTY) {
+    return;
   }
+
+  if (AUTO_COPY_BUTTON_CHECKED) {
+    copyToClipboard(displayBar.textContent);
+  }
+
+  addCalculationToHistoryList();
+  toggle(inputBar, "move-up-input");
+  toggle(displayBar, "move-up-display");
+  preventInput(true);
 }
 
-function switchOver() {
+function setInputBarToDisplayBar() {
   inputBar.value = displayBar.textContent;
   displayBar.textContent = "";
 }
@@ -385,9 +399,7 @@ calculationDisplayContainer.addEventListener("transitionend", (e) => {
   if (MOVE_UP_TRANSITION_END) {
     toggle(inputBar, "move-up-input");
     toggle(displayBar, "move-up-display");
-
-    switchOver();
-
+    setInputBarToDisplayBar();
     preventInput(false);
   }
 });
@@ -402,7 +414,7 @@ calculationDisplayContainer.addEventListener("transitioncancel", (e) => {
 
   if (MOVE_UP_TRANSITION_CANCELLED) {
     cancelTransition();
-    switchOver();
+    setInputBarToDisplayBar();
 
     preventInput(false);
   }
@@ -410,7 +422,7 @@ calculationDisplayContainer.addEventListener("transitioncancel", (e) => {
 
 equalsButton.addEventListener("click", equals);
 
-deleteButton.addEventListener("click", () => {
+function deleteWithoutTransition() {
   const DELETE_TRANSITION_NOT_ONGOING = !calculatorContainer
     .getAttribute("class")
     .includes("wipeout-slider");
@@ -419,7 +431,9 @@ deleteButton.addEventListener("click", () => {
     inputBar.value = removeLastChar(inputBar.value);
     inputBar.scrollLeft = inputBar.scrollWidth;
   }
-});
+}
+
+deleteButton.addEventListener("click", deleteWithoutTransition);
 
 let on = 1;
 let mouseIsDown = false;
@@ -534,16 +548,16 @@ function makeValidString(string) {
 }
 
 function invalidBrackets() {
-  let a = 0;
+  let counter = 0;
+
   for (let i = 0; i < inputBar.value.length; i++) {
     if (inputBar.value[i] === "(") {
-      a++;
+      counter++;
     }
     if (inputBar.value[i] === ")") {
-      a--;
+      counter--;
     }
-
-    if (a < 0) {
+    if (counter < 0) {
       return true;
     }
   }
