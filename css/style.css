@@ -640,6 +640,28 @@ svg {
   font-size: clamp(21.5px, 2.15rem, 34.4px);
 }
 
+.move-up-input {
+  position: relative;
+  z-index: -1;
+
+  transition: 1s all;
+
+  opacity: 0;
+
+  transform: translateY(-60px);
+}
+
+.move-up-display {
+  transition: 0.833s all;
+
+  font-family: Arial;
+  font-size: 1.75rem;
+  font-size: var(--input-bar-font-size);
+  letter-spacing: 1px;
+
+  transform: translate3d(-2px, -48px, 0px);
+}
+
 /* Calculator buttons */
 .calculator-buttons-container {
   display: flex;
@@ -764,28 +786,6 @@ svg {
 
 .calculator-buttons-row:last-child :last-child {
   width: var(--calculator-button-span2-col);
-}
-
-.move-up-input {
-  position: relative;
-  z-index: -1;
-
-  transition: 1s all;
-
-  opacity: 0;
-
-  transform: translateY(-60px);
-}
-
-.move-up-display {
-  transition: 0.833s all;
-
-  font-family: Arial;
-  font-size: 1.75rem;
-  font-size: var(--input-bar-font-size);
-  letter-spacing: 1px;
-
-  transform: translate3d(-2px, -48px, 0px);
 }
 
 @media screen and (min-width: 280px) {
