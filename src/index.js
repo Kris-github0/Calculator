@@ -1,3 +1,5 @@
+import style from "./style.css";
+
 const darkModeButton = document.getElementById("dark-mode");
 const HTML = document.querySelector("html");
 
