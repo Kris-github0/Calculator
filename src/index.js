@@ -75,7 +75,10 @@ document.addEventListener("keydown", (e) => {
   }
 
   calc.addUserInputToInputBar(e.key);
-  calc.makeValidString(inputBar.value);
+
+  if (!calc.stringIsValid(inputBar.value)) {
+    inputBar.value = _.removeLastChar(inputBar.value);
+  }
   inputBar.scrollLeft = inputBar.scrollWidth;
 
   displayBar.textContent = calc.calculation(
@@ -101,7 +104,9 @@ calculatorButtonsContainer.addEventListener("click", (e) => {
 
   if (calc.displayableCalculatorButton(e.target)) {
     calc.addUserInputToInputBar(e.target.textContent);
-    calc.makeValidString(inputBar.value);
+    if (!calc.stringIsValid(inputBar.value)) {
+      inputBar.value = _.removeLastChar(inputBar.value);
+    }
     inputBar.scrollLeft = inputBar.scrollWidth;
   }
 

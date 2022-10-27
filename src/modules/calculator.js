@@ -314,8 +314,7 @@ function initiateTimer() {
   }, 750);
 }
 
-function makeValidString(string) {
-  const inputBar = document.querySelector(".input-bar");
+function stringIsValid(string) {
   const regex = [
     /^[^0-9-(]/,
     /[.][^()×÷+-]*[.]/,
@@ -338,33 +337,33 @@ function makeValidString(string) {
 
   for (let i = 0; i < regex.length; i++) {
     if (regex[i].test(string)) {
-      inputBar.value = removeLastChar(inputBar.value);
-      return;
+      return false;
     }
   }
 
-  if (invalidBrackets()) {
-    inputBar.value = removeLastChar(inputBar.value);
+  if (!validBrackets(string)) {
+    return false;
   }
+
+  return true;
 }
 
-function invalidBrackets() {
-  const inputBar = document.querySelector(".input-bar");
+function validBrackets(string) {
   let counter = 0;
 
-  for (let i = 0; i < inputBar.value.length; i++) {
-    if (inputBar.value[i] === "(") {
+  for (let i = 0; i < string.length; i++) {
+    if (string[i] === "(") {
       counter++;
     }
-    if (inputBar.value[i] === ")") {
+    if (string[i] === ")") {
       counter--;
     }
     if (counter < 0) {
-      return true;
+      return false;
     }
   }
 
-  return false;
+  return true;
 }
 
 function buildExpressionForDisplay(expression) {
@@ -375,7 +374,6 @@ function buildExpressionForDisplay(expression) {
   } catch (error) {
     newExpression = removeLastChar(newExpression);
     newExpression = buildExpressionForDisplay(newExpression);
-    console.log(newExpression);
   }
 
   return newExpression;
@@ -476,8 +474,8 @@ module.exports = {
   resetDeleteButtonState,
   clearDisplay,
   initiateTimer,
-  makeValidString,
-  invalidBrackets,
+  stringIsValid,
+  validBrackets,
   buildExpressionForDisplay,
   buildCalculation,
   resize,
