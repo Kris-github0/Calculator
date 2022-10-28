@@ -1,5 +1,5 @@
 {
-  "name": "simple-calculator",
+  "name": "calculator",
   "version": "",
   "description": "",
   "main": "./src/index.js",
@@ -28,12 +28,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Kris-github0/Simple-Calculator.git"
+    "url": "git+https://github.com/Kris-github0/Calculator.git"
   },
   "author": "Kristian Harrison-Wright",
   "license": "",
   "bugs": {
-    "url": "https://github.com/Kris-github0/Simple-Calculator/issues"
+    "url": "https://github.com/Kris-github0/Calculator/issues"
   },
-  "homepage": "https://Kris-github0.github.io/Simple-Calculator"
+  "homepage": "https://Kris-github0.github.io/Calculator"
 }
