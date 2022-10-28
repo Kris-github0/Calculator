@@ -262,11 +262,11 @@ function deleteWithoutTransition() {
   const inputBar = document.querySelector(".input-bar");
   const calculatorContainer = document.querySelector(".calculator-container");
 
-  const DELETE_TRANSITION_NOT_ONGOING = !calculatorContainer
+  const DELETE_TRANSITION_ONGOING = calculatorContainer
     .getAttribute("class")
     .includes("wipeout-slider");
 
-  if (DELETE_TRANSITION_NOT_ONGOING) {
+  if (!DELETE_TRANSITION_ONGOING) {
     inputBar.value = removeLastChar(inputBar.value);
     inputBar.scrollLeft = inputBar.scrollWidth;
   }
