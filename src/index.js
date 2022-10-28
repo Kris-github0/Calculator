@@ -210,6 +210,7 @@ calculatorContainer.addEventListener("transitionend", (e) => {
 
   if (SECOND_HALF_ENDED) {
     calc.preventInput(false);
+    equalsButton.disabled = false;
     calc.turnOn();
   }
 });

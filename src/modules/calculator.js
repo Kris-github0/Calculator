@@ -313,6 +313,7 @@ function initiateTimer() {
   timeout = setTimeout(() => {
     if (mouseIsDown) {
       calculatorContainer.classList.add("wipeout-slider");
+      document.getElementById("equals-button").disabled = true;
       preventInput(true);
     }
   }, 750);
