@@ -32,9 +32,13 @@ function notify() {
 
   tooltip.classList.add("show-tooltip");
 
-  setTimeout(function hideNotification() {
-    tooltip.classList.remove("show-tooltip");
-  }, 2500);
+  setTimeout(hideNotification, 2500);
+}
+
+function hideNotification() {
+  const tooltip = document.querySelector(".tooltip");
+
+  tooltip.classList.remove("show-tooltip");
 }
 
 function buildLi() {
