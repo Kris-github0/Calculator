@@ -1,6 +1,6 @@
-const { buildCalculation } = require("../../src/modules/calculator");
+const { buildExpression } = require("../../src/modules/calculator");
 
-describe("buildCalculation", () => {
+describe("buildExpression", () => {
   test.each([
     { before: "2×3", after: "2*3" },
     { before: "10÷2", after: "10/2" },
@@ -22,6 +22,6 @@ describe("buildCalculation", () => {
       after: "82309482*(42378/8749*(4238)*48392)*(8443+5*(954))-9.45353e-234",
     },
   ])("$before should return $after", ({ before, after }) => {
-    expect(buildCalculation(before)).toBe(after);
+    expect(buildExpression(before)).toBe(after);
   });
 });

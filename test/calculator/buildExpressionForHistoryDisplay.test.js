@@ -1,6 +1,8 @@
-const { buildExpressionForDisplay } = require("../../src/modules/calculator");
+const {
+  buildExpressionForHistoryDisplay,
+} = require("../../src/modules/calculator");
 
-describe("buildExpressionForDisplay", () => {
+describe("buildExpressionForHistoryDisplay", () => {
   describe("Valid expressions should return itself.", () => {
     test.each([
       { expression: "20%" },
@@ -9,7 +11,7 @@ describe("buildExpressionForDisplay", () => {
       { expression: "5(4)(33÷11)" },
       { expression: "-9.432÷3(95)" },
     ])("$expression should return $expression", ({ expression }) => {
-      expect(buildExpressionForDisplay(expression)).toBe(expression);
+      expect(buildExpressionForHistoryDisplay(expression)).toBe(expression);
     });
   });
 
@@ -25,7 +27,7 @@ describe("buildExpressionForDisplay", () => {
         valid: "(34×(60-4%))((90+5(74))÷2)",
       },
     ])("$before should return $after", ({ invalid, valid }) => {
-      expect(buildExpressionForDisplay(invalid)).toBe(valid);
+      expect(buildExpressionForHistoryDisplay(invalid)).toBe(valid);
     });
   });
 });

@@ -43,7 +43,7 @@ function hideNotification() {
 
 function buildLi() {
   const inputBar = document.querySelector(".input-bar");
-  const formattedInputBar = buildExpressionForDisplay(inputBar.value);
+  const formattedInputBar = buildExpressionForHistoryDisplay(inputBar.value);
   const displayBar = document.querySelector(".display-bar");
   const fragment = new DocumentFragment();
   const li = document.createElement("li");
@@ -97,7 +97,7 @@ let NOTIFIED = 0;
 function invalidHistoryInput() {
   const HISTORY_LIST_IS_FULL = document.querySelectorAll("li").length === 100;
   const inputBar = document.querySelector(".input-bar");
-  const formattedInputBar = buildExpressionForDisplay(inputBar.value);
+  const formattedInputBar = buildExpressionForHistoryDisplay(inputBar.value);
 
   if (HISTORY_LIST_IS_FULL) {
     if (!NOTIFIED) {
@@ -190,6 +190,16 @@ function addUserInputToInputBar(char) {
     default:
       inputBar.value += char;
   }
+}
+
+function updateDisplayBar() {
+  const inputBar = document.querySelector(".input-bar");
+  const displayBar = document.querySelector(".display-bar");
+
+  const expression = buildExpression(inputBar.value);
+  const result = calculate(expression);
+
+  displayBar.textContent = result;
 }
 
 function placeBackIntoCalculator(element) {
@@ -371,20 +381,20 @@ function validBrackets(string) {
   return true;
 }
 
-function buildExpressionForDisplay(expression) {
+function buildExpressionForHistoryDisplay(expression) {
   let newExpression = String(expression);
 
   try {
-    eval(buildCalculation(expression));
+    eval(buildExpression(expression));
   } catch (error) {
     newExpression = removeLastChar(newExpression);
-    newExpression = buildExpressionForDisplay(newExpression);
+    newExpression = buildExpressionForHistoryDisplay(newExpression);
   }
 
   return newExpression;
 }
 
-function buildCalculation(string) {
+function buildExpression(string) {
   let newString;
   newString = convertFromTo("×", "*", string);
   newString = convertFromTo("÷", "/", newString);
@@ -417,7 +427,7 @@ function resize(number) {
 }
 
 function rewind(expression) {
-  return calculation(expression.slice(0, expression.length - 1));
+  return calculate(expression.slice(0, expression.length - 1));
 }
 
 function invalidExpression(expression) {
@@ -432,7 +442,7 @@ function invalidExpression(expression) {
   return LastValidExpression;
 }
 
-function calculation(expression) {
+function calculate(expression) {
   try {
     eval(expression);
   } catch (error) {
@@ -467,6 +477,7 @@ module.exports = {
   displayableCalculatorButton,
   inputIsValid,
   addUserInputToInputBar,
+  updateDisplayBar,
   placeBackIntoCalculator,
   preventInput,
   equals,
@@ -481,10 +492,10 @@ module.exports = {
   initiateTimer,
   stringIsValid,
   validBrackets,
-  buildExpressionForDisplay,
-  buildCalculation,
+  buildExpressionForHistoryDisplay,
+  buildExpression,
   resize,
   rewind,
   invalidExpression,
-  calculation,
+  calculate,
 };

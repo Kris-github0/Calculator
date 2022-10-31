@@ -81,9 +81,7 @@ document.addEventListener("keydown", (e) => {
   }
   inputBar.scrollLeft = inputBar.scrollWidth;
 
-  displayBar.textContent = calc.calculation(
-    calc.buildCalculation(inputBar.value)
-  );
+  calc.updateDisplayBar();
 });
 
 const inputBar = document.querySelector(".input-bar");
@@ -104,15 +102,14 @@ calculatorButtonsContainer.addEventListener("click", (e) => {
 
   if (calc.displayableCalculatorButton(e.target)) {
     calc.addUserInputToInputBar(e.target.textContent);
+
     if (!calc.stringIsValid(inputBar.value)) {
       inputBar.value = _.removeLastChar(inputBar.value);
     }
     inputBar.scrollLeft = inputBar.scrollWidth;
   }
 
-  displayBar.textContent = calc.calculation(
-    calc.buildCalculation(inputBar.value)
-  );
+  calc.updateDisplayBar();
 });
 
 const clearHistoryButton = document.getElementById("main-trash-button");
@@ -172,13 +169,6 @@ calculationDisplayContainer.addEventListener("transitioncancel", (e) => {
 equalsButton.addEventListener("click", calc.equals);
 
 deleteButton.addEventListener("click", calc.deleteWithoutTransition);
-
-document.addEventListener("click", (e) => {
-  if (e.target !== deleteButton) {
-    calc.resetDeleteButtonState();
-  }
-});
-
 deleteButton.addEventListener("blur", calc.resetDeleteButtonState);
 
 deleteButton.addEventListener("keydown", (e) => {
@@ -191,6 +181,19 @@ deleteButton.addEventListener("keyup", (e) => {
   if (e.key === " ") {
     calc.resetDeleteButtonState();
     calc.removeTimer();
+  }
+});
+
+deleteButton.addEventListener("mousedown", calc.initiateTimer);
+
+deleteButton.addEventListener("mouseup", () => {
+  calc.resetDeleteButtonState();
+  calc.removeTimer();
+});
+
+document.addEventListener("click", (e) => {
+  if (e.target !== deleteButton) {
+    calc.resetDeleteButtonState();
   }
 });
 
@@ -213,11 +216,4 @@ calculatorContainer.addEventListener("transitionend", (e) => {
     equalsButton.disabled = false;
     calc.turnOn();
   }
-});
-
-deleteButton.addEventListener("mousedown", calc.initiateTimer);
-
-deleteButton.addEventListener("mouseup", () => {
-  calc.resetDeleteButtonState();
-  calc.removeTimer();
 });
