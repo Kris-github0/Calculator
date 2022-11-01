@@ -1,4 +1,10 @@
 import style from "./style.css";
+
+function importAll(r) {
+  r.keys().forEach(r);
+}
+importAll(require.context("./assets/favicon"));
+
 const _ = require("./modules/utilities");
 const calc = require("./modules/calculator");
 
