@@ -10,7 +10,6 @@ module.exports = merge(common, {
   output: {
     filename: "[name].[contenthash].js",
     path: path.resolve(`${__dirname}/../`, "build"),
-    assetModuleFilename: "favicon/[name][ext]",
     clean: true,
   },
   optimization: {
@@ -39,10 +38,6 @@ module.exports = merge(common, {
       {
         test: /\.css$/i,
         use: [MiniCssExtractPlugin.loader, "css-loader"],
-      },
-      {
-        test: /\.(png|xml|ico|svg|webmanifest)/,
-        type: "asset/resource",
       },
     ],
   },
