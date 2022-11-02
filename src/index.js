@@ -190,6 +190,21 @@ deleteButton.addEventListener("keyup", (e) => {
   }
 });
 
+deleteButton.addEventListener("touchstart", () => {
+  calc.initiateTimer();
+});
+
+deleteButton.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+  e.stopImmediatePropagation();
+  return false;
+});
+
+deleteButton.addEventListener("touchend", () => {
+  calc.resetDeleteButtonState();
+  calc.removeTimer();
+});
+
 deleteButton.addEventListener("mousedown", calc.initiateTimer);
 
 deleteButton.addEventListener("mouseup", () => {
