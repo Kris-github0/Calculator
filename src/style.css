@@ -164,6 +164,14 @@ main {
   max-height: 22px;
 }
 
+.option-toggle,
+.copy-button,
+.history-button,
+.trash-button,
+.calculator-button {
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* Toggle button */
 :root {
   --option-toggle-font-size: 0.85rem;
