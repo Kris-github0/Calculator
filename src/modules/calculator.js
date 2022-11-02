@@ -56,7 +56,7 @@ function buildLi() {
   </div>
 
   <div class="calculation-options-container">
-    <button class="copy-button">
+    <button class="copy-button" aria-label="Copy">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 111.07 122.88"
@@ -68,7 +68,7 @@ function buildLi() {
         </g>
       </svg>
     </button>
-    <button class="trash-button">
+    <button class="trash-button" aria-label="Delete">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
