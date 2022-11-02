@@ -16,9 +16,15 @@ darkModeButton.addEventListener("click", () => _.toggle(HTML, "dark"));
 const historyButton = document.getElementById("history-button");
 const historyContainer = document.getElementById("history-list-container");
 
-historyButton.addEventListener("click", () =>
-  _.toggle(historyContainer, "hide")
-);
+historyButton.addEventListener("click", () => {
+  _.toggle(historyContainer, "hide");
+
+  if (historyContainer.classList.contains("hide")) {
+    historyButton.setAttribute("aria-label", "Open history");
+  } else {
+    historyButton.setAttribute("aria-label", "Close history");
+  }
+});
 
 const dualBracketButton = document.getElementById("brackets-button");
 const bracketButtonsContainer = document.getElementById("brackets-container");
