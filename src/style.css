@@ -542,6 +542,10 @@ svg {
   padding: 0;
 }
 
+.trash-button span {
+  color: black;
+}
+
 .history-list-container > .trash-button svg {
   width: 30px;
 }
