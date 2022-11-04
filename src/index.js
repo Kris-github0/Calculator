@@ -197,7 +197,9 @@ deleteButton.addEventListener("keyup", (e) => {
 });
 
 deleteButton.addEventListener("touchstart", () => {
-  calc.initiateTimer();
+  if (!deleteButton.disabled) {
+    calc.initiateTimer();
+  }
 });
 
 deleteButton.addEventListener("contextmenu", (e) => {
