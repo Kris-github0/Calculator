@@ -1,6 +1,6 @@
 # Calculator
 
-<video src="https://user-images.githubusercontent.com/70901103/200148604-9ce96ce2-8e83-48ce-b250-e82ceedc51d0.mp4" autoplay loop ></video>
+<video src="https://user-images.githubusercontent.com/70901103/200175449-7b2cefbf-b23c-43c7-a30f-b27fba8476b3.mp4" autoplay loop ></video>
 
 <br>
 <br>
